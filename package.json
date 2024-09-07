@@ -1,0 +1,34 @@
+{
+  "name": "gimme_readme",
+  "description": "A CLI tool that generates a markdown file that explains your code using AI",
+  "version": "0.0.1",
+  "main": "gr.js",
+  "bin": {
+    "gr": "./src/_gr.js"
+  },
+  "scripts": {
+    "test": "./src/_gr.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterdanwan/gimme_readme.git"
+  },
+  "keywords": [
+    "ai",
+    "chat-completion",
+    "learning",
+    "README.md"
+  ],
+  "author": "Peter Wan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/peterdanwan/gimme_readme/issues"
+  },
+  "homepage": "https://github.com/peterdanwan/gimme_readme#readme",
+  "dependencies": {
+    "@google/generative-ai": "^0.17.1",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "ora": "^8.1.0"
+  }
+}
