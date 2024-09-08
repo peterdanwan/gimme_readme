@@ -1,13 +1,17 @@
 {
   "name": "gimme_readme",
-  "description": "A CLI tool that generates a markdown file that explains your code using AI",
   "version": "0.0.1",
+  "description": "A CLI tool that generates a markdown file that explains your code using AI",
+  "author": "Peter Wan",
+  "license": "MIT",
   "main": "gr.js",
   "bin": {
     "gr": "./src/_gr.js"
   },
+  "type": "module",
   "scripts": {
-    "test": "./src/_gr.js"
+    "test": "./src/_gr.js",
+    "lint": "eslint --config eslint.config.mjs \"./src/**/*.js\" \"tests/**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -19,16 +23,19 @@
     "learning",
     "README.md"
   ],
-  "author": "Peter Wan",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/peterdanwan/gimme_readme/issues"
   },
   "homepage": "https://github.com/peterdanwan/gimme_readme#readme",
   "dependencies": {
     "@google/generative-ai": "^0.17.1",
-    "commander": "^12.1.0",
     "dotenv": "^16.4.5",
-    "ora": "^8.1.0"
+    "ora": "^8.1.0",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0"
   }
 }
