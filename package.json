@@ -1,7 +1,7 @@
 {
   "name": "gimme_readme",
   "version": "0.0.1",
-  "description": "A CLI tool that generates a markdown file that explains your code using AI",
+  "description": "gimme_readme is a command-line tool that uses AI to generate a README.md file that explains a given source code file.",
   "author": "Peter Wan",
   "license": "MIT",
   "main": "_gr.js",
@@ -30,9 +30,9 @@
   "homepage": "https://github.com/peterdanwan/gimme_readme#readme",
   "dependencies": {
     "@google/generative-ai": "^0.17.1",
+    "commander": "^12.1.0",
     "dotenv": "^16.4.5",
-    "ora": "^8.1.0",
-    "yargs": "^17.7.2"
+    "ora": "^8.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.10.0",
