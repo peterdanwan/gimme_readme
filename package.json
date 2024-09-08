@@ -4,7 +4,7 @@
   "description": "A CLI tool that generates a markdown file that explains your code using AI",
   "author": "Peter Wan",
   "license": "MIT",
-  "main": "gr.js",
+  "main": "_gr.js",
   "bin": {
     "gr": "./src/_gr.js"
   },
@@ -21,7 +21,8 @@
     "ai",
     "chat-completion",
     "learning",
-    "README.md"
+    "README.md",
+    "aryan"
   ],
   "bugs": {
     "url": "https://github.com/peterdanwan/gimme_readme/issues"
