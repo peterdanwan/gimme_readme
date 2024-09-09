@@ -1,9 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Imports
- */
-
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -14,10 +10,14 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 // Reference: https://www.npmjs.com/package/ora
 // import ora from 'ora';
 
-// Reference: https://github.com/yargs/yargs
-// import yargs from 'yargs';
+// Lets us use commonjs require syntax for older modules
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const { name, version, description } = require('../package.json');
 
-import printBanner from './printBanner';
+// Reference: https://github.com/tj/commander.js
+const { Command } = require('commander');
+const program = new Command();
 
 // Make values from .env available
 dotenv.config();
@@ -26,19 +26,62 @@ dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
+// Initialize a different AI client
+
 // Main function
 async function main() {
-  // Read command-line arguments
   const args = process.argv;
-  if (args.length == 2) {
-    printBanner();
+
+  program.name(name);
+  program.description(description);
+  program.version(version);
+
+  program.option('-f, --file [files...]', 'specify files');
+  program.parse(args);
+
+  const options = program.opts();
+
+  if (args.length == 2 || options.help) {
+    console.log(program.help());
   }
-  // Might be -v or -v or --version
-  const filePath = args[2]; // File path provided as argument
-  // Resolve the file path to an absolute path
+
+  if (options.version) {
+    console.log(version);
+  }
+
+  if (options.description) {
+    console.log(description);
+  }
+
+  if (options.file) {
+    const argumentsJSON = program.opts();
+    const files = argumentsJSON['file'];
+
+    let prompt = '';
+
+    for (let file of files) {
+      // appendFileToPrompt();
+
+      prompt += '3';
+      console.log(prompt);
+
+      // Paste file content
+      console.log(file);
+    }
+
+    // console.log(argumentsJSON['file']);
+  }
+
+  process.exit(1);
+}
+
+// Run the main function
+main();
+
+// eslint-disable-next-line no-unused-vars
+async function appendFileToPrompt(filePath) {
   const resolvedPath = path.resolve(filePath);
   console.log(resolvedPath);
-
   // Check if the file exists
   if (!fs.existsSync(resolvedPath)) {
     console.error(`Error: The file "${resolvedPath}" does not exist.`);
@@ -56,6 +99,3 @@ async function main() {
     console.error('Error generating content:', error);
   }
 }
-
-// Run the main function
-main();
