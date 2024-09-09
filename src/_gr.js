@@ -37,11 +37,13 @@ async function main() {
   program.version(version);
 
   program.option('-f, --file [files...]', 'specify files');
+  program.option('-o, --output <string>', 'output to file (fo) or command-line (c) ');
   program.parse(args);
 
   const options = program.opts();
 
   if (args.length == 2 || options.help) {
+    // Prints general usage of tool (not all sub-commands and their options are shown)
     console.log(program.help());
   }
 
@@ -54,22 +56,20 @@ async function main() {
   }
 
   if (options.file) {
-    const argumentsJSON = program.opts();
-    const files = argumentsJSON['file'];
+    const files = options['file'];
 
-    let prompt = '';
+    let prompt =
+      'Take the following code and produce a README.md style response that explains the code (please have code snippets with comments):\n\n';
 
     for (let file of files) {
-      // appendFileToPrompt();
+      const content = getFileContent(file);
 
-      prompt += '3';
-      console.log(prompt);
-
-      // Paste file content
-      console.log(file);
+      if (content) {
+        prompt += content + '\n\n';
+      }
     }
 
-    // console.log(argumentsJSON['file']);
+    await promptAI(prompt);
   }
 
   process.exit(1);
@@ -78,19 +78,29 @@ async function main() {
 // Run the main function
 main();
 
-// eslint-disable-next-line no-unused-vars
-async function appendFileToPrompt(filePath) {
+function getFileContent(filePath) {
+  // Gets the absolute path of the file (this isn't sent to OpenAI)
   const resolvedPath = path.resolve(filePath);
-  console.log(resolvedPath);
+
+  console.log(`Resolved path is: ${resolvedPath}`);
+
   // Check if the file exists
   if (!fs.existsSync(resolvedPath)) {
     console.error(`Error: The file "${resolvedPath}" does not exist.`);
-    process.exit(1);
+    return null;
   }
+
   // Read file content
-  const fileContent = fs.readFileSync(resolvedPath, 'utf-8');
-  // Create the prompt with the file content
-  const prompt = `Take the following code and produce a README.md style response that explains the code (please have code snippets with comments):\n\n${fileContent}`;
+  try {
+    const fileContent = fs.readFileSync(resolvedPath, 'utf-8');
+    return fileContent;
+  } catch (error) {
+    console.error(`Error reading file "${resolvedPath}": ${error.message}`);
+    return null;
+  }
+}
+
+async function promptAI(prompt) {
   try {
     // Generate content using the AI model
     const result = await model.generateContent(prompt);
