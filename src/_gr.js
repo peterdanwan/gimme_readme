@@ -32,12 +32,16 @@ const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 async function main() {
   const args = process.argv;
 
+  // Metadata
   program.name(name);
   program.description(description);
-  program.version(version);
+  program.version(version, '-v, --version', 'output the current version');
 
+  // Options
   program.option('-f, --file [files...]', 'specify files');
   program.option('-o, --output <string>', 'output to file (fo) or command-line (c) ');
+  program.option('-p, --prompt <string>', 'specify a custom prompt');
+
   program.parse(args);
 
   const options = program.opts();
@@ -59,9 +63,12 @@ async function main() {
     const files = options['file'];
 
     let prompt =
-      'Take the following code and produce a README.md style response that explains the code (please have code snippets with comments):\n\n';
+      'Take the following code and produce a README.md style response based on each file sent that explains the code (please have code snippets with comments):\n\n';
 
+    console.log(files);
     for (let file of files) {
+      console.log(file);
+
       const content = getFileContent(file);
 
       if (content) {
@@ -82,8 +89,6 @@ function getFileContent(filePath) {
   // Gets the absolute path of the file (this isn't sent to OpenAI)
   const resolvedPath = path.resolve(filePath);
 
-  console.log(`Resolved path is: ${resolvedPath}`);
-
   // Check if the file exists
   if (!fs.existsSync(resolvedPath)) {
     console.error(`Error: The file "${resolvedPath}" does not exist.`);
@@ -92,7 +97,14 @@ function getFileContent(filePath) {
 
   // Read file content
   try {
-    const fileContent = fs.readFileSync(resolvedPath, 'utf-8');
+    let fileContent = resolvedPath + '\n';
+
+    fileContent += fs.readFileSync(resolvedPath, 'utf-8');
+
+    console.log(`Resolved path is: ${resolvedPath}`);
+    console.log(fileContent);
+    console.log('\n');
+
     return fileContent;
   } catch (error) {
     console.error(`Error reading file "${resolvedPath}": ${error.message}`);
