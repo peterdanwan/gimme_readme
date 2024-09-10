@@ -6,13 +6,14 @@
   "license": "MIT",
   "main": "_gr.js",
   "bin": {
-    "gr": "./src/_gr.js"
+    "gr-ai": "./src/_gr.js"
   },
   "type": "module",
   "scripts": {
-    "test": "jest -c jest.config.js --runInBand",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js -c jest.config.js --runInBand",
     "lint": "eslint --config eslint.config.mjs \"./src/**/*.js\" \"tests/**/*.js\"",
-    "format": "prettier --write \"./src/**/*.js\" \"tests/**/*.js\""
+    "format": "prettier --write \"./src/**/*.js\" \"tests/**/*.js\"",
+    "coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js -c jest.config.js --runInBand --coverage"
   },
   "repository": {
     "type": "git",
