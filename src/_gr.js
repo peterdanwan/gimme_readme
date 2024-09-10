@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// src/_gr.js
+
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -10,14 +12,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 // Reference: https://www.npmjs.com/package/ora
 // import ora from 'ora';
 
-// Lets us use commonjs require syntax for older modules
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const { name, version, description } = require('../package.json');
-
-// Reference: https://github.com/tj/commander.js
-const { Command } = require('commander');
-const program = new Command();
+import program from './commanderProgram.js';
 
 // Make values from .env available
 dotenv.config();
@@ -32,31 +27,13 @@ const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 async function main() {
   const args = process.argv;
 
-  // Metadata
-  program.name(name);
-  program.description(description);
-  program.version(version, '-v, --version', 'output the current version');
-
-  // Options
-  program.option('-f, --file [files...]', 'specify files');
-  program.option('-o, --output <string>', 'output to file (fo) or command-line (c) ');
-  program.option('-p, --prompt <string>', 'specify a custom prompt');
-
   program.parse(args);
 
   const options = program.opts();
 
-  if (args.length == 2 || options.help) {
+  if (args.length == 2) {
     // Prints general usage of tool (not all sub-commands and their options are shown)
     console.log(program.help());
-  }
-
-  if (options.version) {
-    console.log(version);
-  }
-
-  if (options.description) {
-    console.log(description);
   }
 
   if (options.file) {

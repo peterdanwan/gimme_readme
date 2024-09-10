@@ -19,4 +19,5 @@ dotenv.config({ path: envFile });
 export default {
   verbose: true,
   testTimeout: 5000,
+  transform: {},
 };
