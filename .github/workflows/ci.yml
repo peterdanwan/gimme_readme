@@ -36,3 +36,19 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+      - name: Install node dependencies and run tests
+        # Runs `npm ci` and `npm test` in one step. See: https://docs.npmjs.com/cli/v8/commands/npm-install-ci-test
+        run: npm install-ci-test
