@@ -5,48 +5,44 @@
 import program from './commanderProgram.js';
 import getFileContent from './getFileContent.js';
 import promptAI from './ai.js';
+import defaultPrompt from './defaultPrompt.js';
 
 async function main() {
   const args = process.argv;
-
   program.parse(args);
 
   const options = program.opts();
 
   if (args.length == 2) {
-    // Prints general usage of tool (not all sub-commands and their options are shown)
     console.log(program.help());
   }
 
   if (options.file) {
     const files = options['file'];
 
-    let prompt =
-      'Take the following code and produce a README.md style response based on each file sent that explains the code (please have code snippets with comments):\n\n';
+    // Let the user specify their own prompt, or use the prompt that we have engineered
+    let prompt = options.prompt || defaultPrompt;
 
-    const modelFlag = options.model || null;
-    const outputFlag = options.output || null;
+    const model = options.model || null;
+    const outputFile = options.outputFile || null;
 
     for (const file of files) {
       console.log('Sending file: ');
       console.log(file);
-      console.log('\n');
 
-      const content = getFileContent(file, modelFlag, outputFlag);
-
-      if (content) {
+      try {
+        const content = getFileContent(file);
         prompt += content + '\n\n';
+      } catch (error) {
+        // Catch the error that's thrown if the file could not be read properly.
+        console.error(error);
       }
-
-      // perhaps should throw an error if they can't read a file.
-      // if the error is thrown, then don't bother prompting AI at all and advise that a file could not be found.
     }
 
     try {
-      await promptAI(prompt);
-
-    } catch (err) {
-      console.error("Throw");
+      await promptAI(prompt, model, outputFile);
+    } catch (error) {
+      console.error(error);
     }
   }
 
