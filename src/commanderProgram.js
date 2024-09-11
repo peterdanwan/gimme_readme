@@ -21,7 +21,11 @@ const colourizedDescription = description.replace('gimme_readme', '\x1b[34mgimme
 // Metadata
 program.name(name);
 program.description(colourizedDescription);
-program.version(version, '-v, --version', 'output the current version');
+program.version(
+  `\x1b[34mgimme_readme\x1b[0m: ${version}`,
+  '-v, --version',
+  'output the current version'
+);
 
 // Options
 program.option('-f, --file [files...]', 'specify the files you wish to get explanations for');
