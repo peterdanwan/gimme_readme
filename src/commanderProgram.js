@@ -24,7 +24,7 @@ program.description(colourizedDescription);
 program.version(version, '-v, --version', 'output the current version');
 
 // Options
-program.option('-f, --file [files...]', 'specify files');
+program.option('-f, --file [files...]', 'specify the files you wish to get explanations for');
 program.option('-o, --outputFile <string>', 'specify the file you wish to output to');
 program.option(
   '-m, --model <string>',
