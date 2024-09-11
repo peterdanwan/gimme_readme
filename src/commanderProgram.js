@@ -25,7 +25,7 @@ program.version(version, '-v, --version', 'output the current version');
 
 // Options
 program.option('-f, --file [files...]', 'specify files');
-program.option('-o, --output <string>', 'output to file (f) or command-line (c) ');
+program.option('-o, --outputFile <string>', 'specify the file you wish to output to');
 program.option(
   '-m, --model <string>',
   "specify which free-tier model you'd want to use (e.g., gemini, openai, grok)"
