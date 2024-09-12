@@ -3,9 +3,12 @@
 // Reference: https://ai.google.dev/gemini-api/docs/text-generation?lang=node
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import dotenv from 'dotenv';
+import os from 'os';
+import path from 'path';
 
 // Make values from .env available
-dotenv.config({ path: '.gimme_readme_config' });
+const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
+dotenv.config({ path: configFilePath });
 
 // Initialize Google Generative AI client
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);

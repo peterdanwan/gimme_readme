@@ -14,7 +14,8 @@ import chalk from 'chalk';
 import ora from 'ora';
 
 // Load .gimme_readme_config as environment variables
-dotenv.config({ path: '.gimme_readme_config' });
+const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
+dotenv.config({ path: configFilePath });
 
 async function main() {
   const args = process.argv;
@@ -29,21 +30,19 @@ async function main() {
 
   // Handle the config option
   if (options.config) {
-    // Determine the config file path in the user's home directory
-    const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
     if (!fs.existsSync(configFilePath)) {
       // Create a default config file if it doesn't exist
       fs.writeFileSync(
         configFilePath,
         'GEMINI_KEY=your-gemini-api-key\nOPENAI_KEY=your-openai-api-key\nMODEL=gemini\nCUSTOM_PROMPT=Your custom prompt here'
       );
-      console.log(`Configuration file created at: ${configFilePath}`);
+      console.log(`Configuration file created at: ${chalk.blue(configFilePath)}`);
     } else {
-      console.log(`Configuration file located at: ${configFilePath}`);
+      console.log(`Configuration file located at: ${chalk.blue(configFilePath)}`);
     }
 
     console.log(
-      'Please refer to the `gimme_readme` repository for examples on how to configure this file: https://github.com/peterdanwan/gimme_readme'
+      `Please refer to the ${chalk.blue('gimme_readme')} repository for examples on how to configure this file: ${chalk.blue('https://github.com/peterdanwan/gimme_readme')}`
     );
 
     process.exit(0);
