@@ -17,6 +17,11 @@ To use the `gimme_readme`, you must:
 
 1. Install the latest version of [node](https://nodejs.org/en/download/package-manager) for your `operating system`.
 2. Run `npm i -g gimme_readme`, which installs `gimme_readme` globally.
+3. Run `gr-ai -c` to generate your own `.gimme_readme_config` file in your `home` directory.
+   - `NOTE`: Do _not_ move this file from this location.
+   - Follow the prompts in recently created `.gimme_readme_config` file to add your API keys and preferred default values
+   - Leave the variable names in the newly generated config file alone.
+   - subsequent runs of `gr-ai -c` will just show you the path of your config file
 
 ## 3. Example Usage
 
