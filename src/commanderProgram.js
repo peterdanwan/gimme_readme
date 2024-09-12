@@ -2,6 +2,8 @@
 
 // Lets us use commonjs require syntax for older modules
 import { createRequire } from 'module';
+import chalk from 'chalk';
+
 const require = createRequire(import.meta.url);
 const { name, version, description } = require('../package.json');
 
@@ -12,16 +14,20 @@ const program = new Command();
 // Custom Banner
 program.addHelpText(
   'beforeAll',
-  `\x1b[34m********************** gimme_readme (version: ${version}) ***********************\x1b[0m`
+  chalk.blue('********************** gimme_readme (version: ${version}) ***********************')
 );
 
 // Colourized Description using ANSI escape codes
-const colourizedDescription = description.replace('gimme_readme', '\x1b[34mgimme_readme\x1b[0m');
+const colourizedDescription = description.replace('gimme_readme', chalk.blue('gimme_readme'));
 
 // Metadata
 program.name(name);
 program.description(colourizedDescription);
-program.version(version, '-v, --version', 'output the current version');
+program.version(
+  `${chalk.blue('gimme_readme')}: ${version}`,
+  '-v, --version',
+  'output the current version'
+);
 
 // Options
 program.option('-f, --file [files...]', 'specify the files you wish to get explanations for');
@@ -31,6 +37,11 @@ program.option(
   "specify which free-tier model you'd want to use (e.g., gemini, openai, grok)"
 );
 program.option('-p, --prompt <string>', 'specify a custom prompt');
+program.option('-c, --config', 'show the location of the configuration file and link to examples');
+program.option(
+  '-t, --temperature <number>',
+  'specify how deterministic you want your AI to be (values should be between 0 to 1)'
+);
 
 // Exports the configured program
 export default program;

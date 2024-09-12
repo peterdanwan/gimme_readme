@@ -1,65 +1,37 @@
 // src/ai.js
 
-import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 
-/**************************** API imports ***********************************/
-// Reference: https://ai.google.dev/gemini-api/docs/text-generation?lang=node
-import { GoogleGenerativeAI } from '@google/generative-ai';
-
-// Make values from .env available
-dotenv.config();
-
-// Initialize Google Generative AI client
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }); // can provide system instruction
+import groqModels from './ai_models/groqModels.js';
+import geminiModels from './ai_models/geminiModels.js';
 
 // Publicly available function
-export default async function promptAI(prompt, model, outputFile) {
+export default async function promptAI(prompt, model, temperature, outputFile) {
   if (model == null) {
     // Set the model to whatever is configured in their .env (default to gemini) and if that isn't set, set it to 'gemini'
-    model = 'gemini';
+    model = 'gemini-1.5-flash';
   }
-
-  switch (model) {
-    case 'gemini':
-      await promptGemini(prompt, outputFile);
-      break;
-    case 'openai':
-      await promptOpenAi(prompt, outputFile);
-      break;
-    case 'claude':
-      break;
-    default:
-      break;
-  }
-}
-
-// Helpers
-async function promptGemini(prompt, outputFile) {
-  // Depending on the outputFlag, output to stdout or paste the content into a file.
-
-  console.log('In promptGemini');
 
   try {
-    // Generate content using the AI model
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
-
+    const responseText = await initializeModel(prompt, model, temperature);
     handleOutput(responseText, outputFile);
   } catch (error) {
-    // Error will propagate to _gr.js
-    throw Error(`Error prompting Gemini ${error}`);
+    throw new Error(error);
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-async function promptOpenAi(prompt, outputFile) {
-  try {
-    // prompt OpenAI
-  } catch (error) {
-    throw Error(`Error prompting OpenAI ${error}`);
+async function initializeModel(prompt, model, temperature) {
+  if (geminiModels.includes(model)) {
+    // Dynamically import geminiProvider.js and call promptGemini
+    const { promptGemini } = await import('./ai_config/geminiConfig.js');
+    return await promptGemini(prompt, model, temperature);
+  } else if (groqModels.includes(model)) {
+    // Dynamically import groqProvider.js and call promptGroq
+    const { promptGroq } = await import('./ai_config/groqConfig.js');
+    return await promptGroq(prompt, model, temperature);
+  } else {
+    throw new Error(`${model} is an unsupported model`);
   }
 }
 
@@ -88,7 +60,7 @@ function handleOutput(responseText, outputFile) {
       counter++;
     }
 
-    console.warn(`File already exists. Writing to new file: ${filePath}`);
+    console.warn(`${outputFile} already exists. Writing to new file: ${filePath}`);
   } else {
     console.log(`Writing output to file: ${filePath}`);
   }
