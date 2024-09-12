@@ -2,17 +2,16 @@
 
 import program from '../../src/commanderProgram.js';
 import { createRequire } from 'module';
+import chalk from 'chalk';
+
 const require = createRequire(import.meta.url);
 const { name, version, description } = require('../../package.json');
 
 describe('commanderProgram.js tests', () => {
   test("The program's name, description, and version match what's in package.json", () => {
-    const colourizedVersion = `\x1b[34mgimme_readme\x1b[0m: ${version}`;
+    const colourizedVersion = `${chalk.blue('gimme_readme')}: ${version}`;
 
-    const colourizedDescription = description.replace(
-      'gimme_readme',
-      '\x1b[34mgimme_readme\x1b[0m'
-    );
+    const colourizedDescription = description.replace('gimme_readme', chalk.blue('gimme_readme'));
 
     expect(program.name()).toBe(name);
     expect(program.version()).toBe(colourizedVersion);
