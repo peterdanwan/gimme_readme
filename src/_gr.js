@@ -12,6 +12,12 @@ import path from 'path';
 import os from 'os';
 import chalk from 'chalk';
 import ora from 'ora';
+import { fileURLToPath } from 'url';
+import {packageDirectory as pkgDir} from 'pkg-dir';
+
+// Define __dirname for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load .gimme_readme_config as environment variables
 const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
@@ -31,11 +37,26 @@ async function main() {
   // Handle the config option
   if (options.config) {
     if (!fs.existsSync(configFilePath)) {
-      // Create a default config file if it doesn't exist
-      fs.writeFileSync(
-        configFilePath,
-        'GEMINI_KEY=your-gemini-api-key\nOPENAI_KEY=your-openai-api-key\nMODEL=gemini\nCUSTOM_PROMPT=Your custom prompt here'
-      );
+      // Find the root directory of the project
+      const rootDir = await pkgDir(__dirname);
+      if (!rootDir) {
+        console.error('Unable to locate the root directory of the project.');
+        process.exit(1);
+      }
+
+      // Construct the path to env.sample at the root of the project
+      const sampleFilePath = path.resolve(rootDir, 'env.sample');
+      let sampleContent;
+
+      try {
+        sampleContent = fs.readFileSync(sampleFilePath, 'utf-8');
+      } catch (err) {
+        console.error(`Could not find env.sample: ${err.message}`);
+        process.exit(1);
+      }
+
+      // Create a new config file with the sample content
+      fs.writeFileSync(configFilePath, sampleContent);
       console.log(`Configuration file created at: ${chalk.blue(configFilePath)}`);
     } else {
       console.log(`Configuration file located at: ${chalk.blue(configFilePath)}`);
@@ -54,10 +75,16 @@ async function main() {
     // Let the user specify their own prompt, or use the prompt that we have engineered
     let prompt = options.prompt || process.env.CUSTOM_PROMPT || defaultPrompt;
     const model = options.model || process.env.MODEL || 'gemini-1.5-flash';
-    const outputFile = options.outputFile || null;
-    const temperature = options.temperature || null;
+    const outputFile = options.outputFile || process.env.OUTPUT_FILE || null;
+    const temperature = options.temperature || process.env.TEMPERATURE || null;
 
     const validFiles = [];
+
+    // Check if files is an array and has at least one entry
+    if (!Array.isArray(files)) {
+      console.log("error: option '-f, --file [files...]' argument missing ");
+      process.exit(1);
+    }
 
     for (const file of files) {
       try {
