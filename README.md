@@ -5,7 +5,8 @@
 1. [What is gimme_readme?][1-what-is-gimme-readme]
 2. [Getting Started][2-getting-started]
 3. [Example Usage][3-example-usage]
-4. [Contributing][4-contributing]
+4. [List of supported models by providers][4-list-of-supported-models-by-providers]
+5. [Contributing][5-contributing]
 
 ## 1. What is gimme_readme?
 
@@ -40,7 +41,14 @@ gr -v
 gr --version
 ```
 
-## 4. Contributing
+## 4. List of supported models by providers
+
+| Provider | Models           |
+| -------- | ---------------- |
+| `gemini` | gemini-1.5-flash |
+| `groq`   | llama3-8b-8192   |
+
+## 5. Contributing
 
 Contributions to this project are welcomed!
 
@@ -53,4 +61,5 @@ Otherwise, if your issue or suggestion is not already list, please feel free to 
 [1-what-is-gimme-readme]: #1-what-is-gimme_readme
 [2-getting-started]: #2-getting-started
 [3-example-usage]: #3-example-usage
-[4-contributing]: #4-contributing
+[4-list-of-supported-models-by-providers]: #4-list-of-supported-models-by-providers
+[5-contributing]: #5-contributing
