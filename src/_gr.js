@@ -11,10 +11,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import chalk from 'chalk';
-import ora from 'ora'; // Import the ora library
-
-// Determine the config file path in the user's home directory
-const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
+import ora from 'ora';
 
 // Load .gimme_readme_config as environment variables
 dotenv.config({ path: '.gimme_readme_config' });
@@ -32,7 +29,8 @@ async function main() {
 
   // Handle the config option
   if (options.config) {
-    const configFilePath = path.resolve(process.cwd(), '.gimme_readme_config');
+    // Determine the config file path in the user's home directory
+    const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
     if (!fs.existsSync(configFilePath)) {
       // Create a default config file if it doesn't exist
       fs.writeFileSync(
@@ -56,8 +54,9 @@ async function main() {
 
     // Let the user specify their own prompt, or use the prompt that we have engineered
     let prompt = options.prompt || process.env.CUSTOM_PROMPT || defaultPrompt;
-    const model = options.model || process.env.MODEL || 'gemini';
+    const model = options.model || process.env.MODEL || 'gemini-1.5-flash';
     const outputFile = options.outputFile || null;
+    const temperature = options.temperature || null;
 
     const validFiles = [];
 
@@ -82,13 +81,13 @@ async function main() {
       console.log(`${chalk.blue('Sending file')}: ${validFiles[0]}`);
     }
 
-    const spinner = ora(`Waiting for response from ${model} model...\n`).start();
+    const spinner = ora(` Waiting for a response from the ${chalk.blue(model)} model...\n`).start();
 
     try {
-      await promptAI(prompt, model, outputFile);
-      spinner.succeed(`Response received from ${model} model`);
+      await promptAI(prompt, model, temperature, outputFile);
+      spinner.succeed(` Response received from ${chalk.blue(model)} model`);
     } catch (error) {
-      spinner.fail(`Failed to receive response from ${model} model`);
+      spinner.fail(` Failed to receive response from ${chalk.red(model)} model`);
       console.error(error);
       process.exit(1);
     }
