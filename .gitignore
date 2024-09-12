@@ -136,3 +136,6 @@ dist
 # Packaged files
 *.zip
 *.tgz 
+
+# Ignore .gimme_readme_config
+.gimme_readme_config
