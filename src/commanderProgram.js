@@ -14,7 +14,7 @@ const program = new Command();
 // Custom Banner
 program.addHelpText(
   'beforeAll',
-  chalk.blue('********************** gimme_readme (version: ${version}) ***********************')
+  chalk.blue(`********************** gimme_readme (version: ${version}) ***********************`)
 );
 
 // Colourized Description using ANSI escape codes
