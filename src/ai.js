@@ -40,8 +40,6 @@ export default async function promptAI(prompt, model, outputFile) {
 async function promptGemini(prompt, outputFile) {
   // Depending on the outputFlag, output to stdout or paste the content into a file.
 
-  console.log('In promptGemini');
-
   try {
     // Generate content using the AI model
     const result = await model.generateContent(prompt);
@@ -88,7 +86,7 @@ function handleOutput(responseText, outputFile) {
       counter++;
     }
 
-    console.warn(`File already exists. Writing to new file: ${filePath}`);
+    console.warn(`${outputFile} already exists. Writing to new file: ${filePath}`);
   } else {
     console.log(`Writing output to file: ${filePath}`);
   }
