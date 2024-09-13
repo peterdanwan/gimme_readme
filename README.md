@@ -1,6 +1,6 @@
 # gimme_readme
 
-`gimme_readme` is a command-line tool that leverages AI to generate a comprehensive `README.md` file for your source code files. It provides explanations for each file's purpose, functionality, and key sections, making it easier for others to understand your project.
+`gimme_readme` is a command-line tool powered by AI that generates a comprehensive `README.md` file for your project. It analyzes multiple source code files at once, providing concise explanations of each file's purpose, functionality, and key components, all in a single, easy-to-read document. This makes your project more approachable and understandable for others.
 
 ## Table of Contents
 
