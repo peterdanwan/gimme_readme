@@ -13,7 +13,6 @@ import os from 'os';
 import chalk from 'chalk';
 import ora from 'ora';
 import { fileURLToPath } from 'url';
-import { packageDirectory as pkgDir } from 'pkg-dir';
 
 // Define __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -37,21 +36,16 @@ async function main() {
   // Handle the config option
   if (options.config) {
     if (!fs.existsSync(configFilePath)) {
-      // Find the root directory of the project
-      const rootDir = await pkgDir(__dirname);
-      if (!rootDir) {
-        console.error('Unable to locate the root directory of the project.');
-        process.exit(1);
-      }
+      // Construct the path to env.sample within the gimme_readme project directory
+      const sampleFilePath = path.resolve(__dirname, '../env.sample'); // Adjust the path to point to gimme_readme/env.sample
 
-      // Construct the path to env.sample at the root of the project
-      const sampleFilePath = path.resolve(rootDir, 'env.sample');
       let sampleContent;
 
       try {
+        // Read the env.sample file from the gimme_readme directory
         sampleContent = fs.readFileSync(sampleFilePath, 'utf-8');
       } catch (err) {
-        console.error(`Could not find env.sample: ${err.message}`);
+        console.error(`Could not find env.sample in the project directory: ${err.message}`);
         process.exit(1);
       }
 
@@ -92,7 +86,6 @@ async function main() {
         prompt += content + '\n\n';
         validFiles.push(file);
       } catch (error) {
-        // Catch the error that's thrown if the file could not be read properly.
         console.error(error);
         process.exit(1);
       }
