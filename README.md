@@ -26,20 +26,26 @@ To use the `gimme_readme`, you must:
 
 ## 3. Example Usage
 
-### Display all details
+### Display help
 
 ```sh
-gr
+# Can do this
+gr-ai
+
+# Or this
+gr-ai -h
 ```
 
 ### Display version number
 
 ```sh
 # Can do this
-gr -v
+gr-ai -v
 # Or this
-gr --version
+gr-ai --version
 ```
+
+###
 
 ## 4. List of supported models by providers
 
