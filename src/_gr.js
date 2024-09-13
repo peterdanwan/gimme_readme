@@ -13,7 +13,7 @@ import os from 'os';
 import chalk from 'chalk';
 import ora from 'ora';
 import { fileURLToPath } from 'url';
-import {packageDirectory as pkgDir} from 'pkg-dir';
+import { packageDirectory as pkgDir } from 'pkg-dir';
 
 // Define __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -76,7 +76,7 @@ async function main() {
     let prompt = options.prompt || process.env.CUSTOM_PROMPT || defaultPrompt;
     const model = options.model || process.env.MODEL || 'gemini-1.5-flash';
     const outputFile = options.outputFile || process.env.OUTPUT_FILE || null;
-    const temperature = options.temperature || process.env.TEMPERATURE || null;
+    const temperature = options.temperature || process.env.TEMPERATURE || 0.5;
 
     const validFiles = [];
 

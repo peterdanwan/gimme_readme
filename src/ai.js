@@ -13,6 +13,18 @@ export default async function promptAI(prompt, model, temperature, outputFile) {
     model = 'gemini-1.5-flash';
   }
 
+  if (typeof temperature === 'string') {
+    // Attempt to convert temperature string into a number
+    // If this fails, throw an error
+    const tempNumber = parseFloat(temperature);
+    if (isNaN(tempNumber)) {
+      throw new Error(
+        `Invalid temperature value: '${temperature}'. It must be a number or a string that can be converted to a number.`
+      );
+    }
+    temperature = tempNumber;
+  }
+
   try {
     const responseText = await initializeModel(prompt, model, temperature);
     handleOutput(responseText, outputFile);
