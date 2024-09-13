@@ -26,7 +26,9 @@ To get started with `gimme_readme`, follow these steps:
    npm i -g gimme_readme
    ```
 
-3. Generate a configuration file by running:
+   NOTE: MAC/LINUX users may need to run `sudo npm i -g gimme_readme`
+
+3. Generate a configuration file by running in _any_ folder you'd like:
 
    ```sh
    gr-ai -c
