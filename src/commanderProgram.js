@@ -37,7 +37,10 @@ program.option(
   "specify which free-tier model you'd want to use (e.g., gemini, openai, grok)"
 );
 program.option('-p, --prompt <string>', 'specify a custom prompt');
-program.option('-c, --config', 'show the location of the configuration file and link to examples');
+program.option(
+  '-c, --config',
+  "makes a .gimme_readme_config file if it doesn't exist and/or shows the location of this config file"
+);
 program.option(
   '-t, --temperature <number>',
   'specify how deterministic you want your AI to be (values should be between 0 to 1)'
