@@ -52,7 +52,8 @@ To get started with `gimme_readme`, follow these steps:
 
 ## 3. Example Usage
 
-Below are some examples to help you get started with `gimme_readme`.
+Below are some simple examples to help you get started with `gimme_readme`. For more detailed examples,
+see [here](./_examples/README.md).
 
 ### Display Help
 
