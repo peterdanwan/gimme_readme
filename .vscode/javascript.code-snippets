@@ -1,0 +1,7 @@
+{
+  "Insert Current File Path Comment": {
+    "prefix": "rpath",
+    "body": ["// ${RELATIVE_FILEPATH/[\\\\]/\\//g}"],
+    "description": "Inserts a comment with the relative path of the current file"
+  }
+}
