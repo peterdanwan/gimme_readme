@@ -35,7 +35,7 @@ program.option('-f, --file [files...]', 'specify the files you wish to get expla
 program.option('-o, --outputFile <string>', 'specify the file you wish to output to');
 program.option(
   '-m, --model <string>',
-  `specify which free-tier model you'd want to use (e.g., ${modelsString})`
+  `specify which free-tier model you'd want to use \ne.g., ${modelsString}`
 );
 program.option('-p, --prompt <string>', 'specify a custom prompt');
 program.option(
