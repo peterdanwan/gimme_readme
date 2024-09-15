@@ -3,6 +3,7 @@
 // Lets us use commonjs require syntax for older modules
 import { createRequire } from 'module';
 import chalk from 'chalk';
+import modelsString from './ai_models/index.js';
 
 const require = createRequire(import.meta.url);
 const { name, version, description } = require('../package.json');
@@ -34,7 +35,7 @@ program.option('-f, --file [files...]', 'specify the files you wish to get expla
 program.option('-o, --outputFile <string>', 'specify the file you wish to output to');
 program.option(
   '-m, --model <string>',
-  "specify which free-tier model you'd want to use (e.g., gemini, openai, grok)"
+  `specify which free-tier model you'd want to use (e.g., ${modelsString})`
 );
 program.option('-p, --prompt <string>', 'specify a custom prompt');
 program.option(
