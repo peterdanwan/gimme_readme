@@ -8,7 +8,7 @@ import geminiModels from './ai_models/geminiModels.js';
 
 // Publicly available function
 export default async function promptAI(prompt, model, temperature, outputFile) {
-  if (model == null) {
+  if (model === null) {
     // Set the model to whatever is configured in their .env (default to gemini) and if that isn't set, set it to 'gemini'
     model = 'gemini-1.5-flash';
   }
@@ -49,7 +49,7 @@ async function initializeModel(prompt, model, temperature) {
 
 // handleOutput
 function handleOutput(responseText, outputFile) {
-  if (outputFile == null) {
+  if (outputFile === null) {
     console.log(responseText);
     return;
   }
