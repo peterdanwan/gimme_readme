@@ -13,7 +13,8 @@ See our [0.1 Release Demo](https://youtu.be/S6v-u9o_Xx8)!
 3. [Example Usage](#3-example-usage)
 4. [Supported Models by Providers](#4-supported-models-by-providers)
 5. [Contributing](#5-contributing)
-6. [Author](#6-author)
+6. [Testing Locally](#6-testing-locally)
+7. [Author](#7-author)
 
 ## 1. Getting Started
 
@@ -99,10 +100,44 @@ We welcome contributions to improve `gimme_readme`! To contribute, please follow
 1. Check the [existing issues](https://github.com/peterdanwan/gimme_readme/issues) to see if your issue or feature request has already been logged.
 2. If your issue or feature request is already listed, add your comments or create a pull request with your proposed changes.
 3. If your issue or suggestion is not listed, feel free to create a new issue. If possible, provide a pull request that addresses the issue.
+4. To test your local changes to `gimme_readme`, please read section [6. Testing Locally](#6-testing-locally)
 
 When making a pull request, please ensure that your changes are well-documented and adhere to the coding standards of the project.
 
-## 6. Author
+## 6. Testing Locally
+
+To test locally on the `gimme_readme` command-line tool, please ensure to do the following in sequence:
+
+1. Ensure you have [Node.js installed](https://nodejs.org/en/download/package-manager)
+2. Fork this repository, and clone your _forked_ repository.
+3. On your machine, after cloning your forked repository, navigate to the _root_ of the cloned repository and run the following:
+
+   ```sh
+   # Remove the gimme-readme repository, and all its code (including the `gr-ai` executable) that you might have installed globally.
+   npm uninstall -g gimme_readme
+
+   # Install the necessary node_modules
+   npm i
+
+   # Simulate the environment gimme-readme is installed globally
+   # You can now use the gr-ai executable, and changes to your source code should be reflected when you make changes to the repo
+   # If your changes aren't reflected after changing the source code, repeat these commands.
+   npm link
+   ```
+
+4. After making changes and testing if your commands work, please run the following before committing your code:
+
+   ```sh
+    # To spot any code issues
+    npm run lint
+
+    # To spot any formatting issues
+    npm run format
+   ```
+
+   > Running these commands will increase the chance that your commit passes the [continuous integration tests](.github/workflows/ci.yml).
+
+## 7. Author
 
 Developed by [Peter Wan](https://github.com/peterdanwan).
 
