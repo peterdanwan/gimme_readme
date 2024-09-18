@@ -125,6 +125,18 @@ To test locally on the `gimme_readme` command-line tool, please ensure to do the
    npm link
    ```
 
+4. After making changes and testing if your commands work, please run the following before committing your code:
+
+   ```sh
+    # To spot any code issues
+    npm run lint
+
+    # To spot any formatting issues
+    npm run format
+   ```
+
+   > Running these commands will increase the chance that your commit passes the [continuous integration tests](.github/workflows/ci.yml).
+
 ## 7. Author
 
 Developed by [Peter Wan](https://github.com/peterdanwan).
