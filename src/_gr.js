@@ -69,8 +69,9 @@ async function main() {
     // Let the user specify their own prompt, or use the prompt that we have engineered
     let prompt = options.prompt || process.env.CUSTOM_PROMPT || defaultPrompt;
     const model = options.model || process.env.MODEL || 'gemini-1.5-flash';
-    const outputFile = options.outputFile || process.env.OUTPUT_FILE || null;
+    const outputFile = options.outputFile || process.env.OUTPUT_FILE || null; // if no options are being specified, the option woudl be null, which means it will go out to terminal in the console
     const temperature = options.temperature || process.env.TEMPERATURE || 0.5;
+    const needToken = options.token || false;
 
     const validFiles = [];
 
@@ -103,7 +104,7 @@ async function main() {
     const spinner = ora(` Waiting for a response from the ${chalk.blue(model)} model...\n`).start();
 
     try {
-      await promptAI(prompt, model, temperature, outputFile);
+      await promptAI(prompt, model, temperature, outputFile, needToken);
       spinner.succeed(` Response received from ${chalk.blue(model)} model`);
     } catch (error) {
       spinner.fail(` Failed to receive response from ${chalk.red(model)} model`);
@@ -112,7 +113,7 @@ async function main() {
     }
   }
 
-  process.exit(0);
+  setTimeout(() => process.exit(0), 100);
 }
 
 main();
