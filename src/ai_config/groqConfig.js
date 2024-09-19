@@ -37,7 +37,13 @@ export async function promptGroq(prompt, model, temperature = 0.5) {
     });
 
     const responseText = chatCompletion.choices[0]?.message?.content || '';
-    return responseText;
+    const tokenUsage = chatCompletion.usage || ''
+    return {responseText,usage:{
+      totalTokenCount:tokenUsage.total_tokens,
+      candidatesTokenCount:tokenUsage.completion_tokens,
+      promptTokenCount:tokenUsage.prompt_tokens
+
+    }}
   } catch (error) {
     throw new Error(`Error prompting Groq: ${error.message}`);
   }
