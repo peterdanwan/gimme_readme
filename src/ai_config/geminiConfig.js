@@ -20,8 +20,8 @@ export async function promptGemini(prompt, model, temperature = 0.5) {
     const generativeModel = genAI.getGenerativeModel({ model, temperature });
     const result = await generativeModel.generateContent(prompt);
     const responseText = result.response.text();
-    const usage = result.response.usageMetadata
-    return {responseText,usage};
+    const usage = result.response.usageMetadata;
+    return { responseText, usage };
   } catch (error) {
     throw new Error(`Error prompting Gemini: ${error.message}`);
   }
