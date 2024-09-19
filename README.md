@@ -8,13 +8,19 @@ See our [0.1 Release Demo](https://youtu.be/S6v-u9o_Xx8)!
 
 ## Table of Contents
 
-1. [Getting Started](#1-getting-started)
-2. [Usage](#2-usage)
-3. [Example Usage](#3-example-usage)
-4. [Supported Models by Providers](#4-supported-models-by-providers)
-5. [Contributing](#5-contributing)
-6. [Testing Locally](#6-testing-locally)
-7. [Author](#7-author)
+- [gimme\_readme](#gimme_readme)
+  - [Table of Contents](#table-of-contents)
+  - [1. Getting Started](#1-getting-started)
+  - [2. Usage](#2-usage)
+  - [3. Example Usage](#3-example-usage)
+    - [Display Help](#display-help)
+    - [Display Version Number](#display-version-number)
+    - [Generate a README for a Source File](#generate-a-readme-for-a-source-file)
+    - [Generate the number of tokens used during the API call](#generate-the-number-of-tokens-used-during-the-api-call)
+  - [4. Supported Models by Providers](#4-supported-models-by-providers)
+  - [5. Contributing](#5-contributing)
+  - [6. Testing Locally](#6-testing-locally)
+  - [7. Author](#7-author)
 
 ## 1. Getting Started
 
@@ -84,6 +90,13 @@ To generate a `README.md` file for one or more source files:
 
 ```sh
 gr-ai -f example.js anotherFile.py -o README.md -m gemini-1.5-flash
+```
+
+### Generate the number of tokens used during the API call
+
+```sh
+gr-ai -f example.js anotherFile.py -o README.md -m gemini-1.5-flash -tkn
+gr-ai -f example.js anotherFile.py -o README.md -m llama3-8b-8192 --token
 ```
 
 ## 4. Supported Models by Providers
