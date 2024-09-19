@@ -46,6 +46,10 @@ describe('src/commanderProgram.js tests', () => {
         description:
           'specify how deterministic you want your AI to be (values should be between 0 to 1)',
       },
+      {
+        flags: '-tkn, --token',
+        description: 'specify the number of tokens used in the program',
+      },
     ];
 
     // Fetch all options defined in the program
