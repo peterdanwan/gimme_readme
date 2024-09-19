@@ -46,7 +46,7 @@ program.option(
   '-t, --temperature <number>',
   'specify how deterministic you want your AI to be (values should be between 0 to 1)'
 );
-program.option('-tkn,--token', 'specify the number of tokens used in the program');
+program.option('-tkn, --token', 'specify the number of tokens used in the program');
 
 // Exports the configured program
 export default program;
