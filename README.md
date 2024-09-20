@@ -8,19 +8,13 @@ See our [0.1 Release Demo](https://youtu.be/S6v-u9o_Xx8)!
 
 ## Table of Contents
 
-- [gimme\_readme](#gimme_readme)
-  - [Table of Contents](#table-of-contents)
-  - [1. Getting Started](#1-getting-started)
-  - [2. Usage](#2-usage)
-  - [3. Example Usage](#3-example-usage)
-    - [Display Help](#display-help)
-    - [Display Version Number](#display-version-number)
-    - [Generate a README for a Source File](#generate-a-readme-for-a-source-file)
-    - [Generate the number of tokens used during the API call](#generate-the-number-of-tokens-used-during-the-api-call)
-  - [4. Supported Models by Providers](#4-supported-models-by-providers)
-  - [5. Contributing](#5-contributing)
-  - [6. Testing Locally](#6-testing-locally)
-  - [7. Author](#7-author)
+1. [Getting Started](#1-getting-started)
+2. [Usage](#2-usage)
+3. [Example Usage](#3-example-usage)
+4. [Supported Models by Providers](#4-supported-models-by-providers)
+5. [Contributing](#5-contributing)
+6. [Testing Locally](#6-testing-locally)
+7. [Author](#7-author)
 
 ## 1. Getting Started
 
@@ -61,6 +55,7 @@ To get started with `gimme_readme`, follow these steps:
 | `-p`, `--prompt <string>`      | Provide a custom prompt to the AI                                         |
 | `-c`, `--config`               | Show the location of the configuration file and provide links to examples |
 | `-t`, `--temperature <number>` | Set the level of determinism for the AI (value between 0 and 1)           |
+| `-tkn`, `--token`              | specify the number of tokens used in the program                          |
 | `-h`, `--help`                 | Display help for the command                                              |
 
 ## 3. Example Usage
@@ -126,19 +121,20 @@ To test locally on the `gimme_readme` command-line tool, please ensure to do the
 3. On your machine, after cloning your forked repository, navigate to the _root_ of the cloned repository and run the following:
 
    ```sh
-   # Remove the gimme-readme repository, and all its code (including the `gr-ai` executable) that you might have installed globally.
+   # Remove the pre-existing, global installation of the gimme-readme repository.
    npm uninstall -g gimme_readme
 
    # Install the necessary node_modules
    npm i
 
-   # Simulate the environment gimme-readme is installed globally
-   # You can now use the gr-ai executable, and changes to your source code should be reflected when you make changes to the repo
-   # If your changes aren't reflected after changing the source code, repeat these commands.
+   # Simulate the environment as if gimme-readme was installed globally via `npm i -g gimme_readme`
+   # You can now use the `gr-ai` executable, and changes to your source code should be reflected when you make changes to the repo
+   # If your changes aren't reflected after changing the source code, repeat the commands above in sequence.
    npm link
    ```
 
-4. After making changes and testing if your commands work, please run the following before committing your code:
+4. After adding any new code, please try to have a `test` case made for this code as well.
+5. When you're ready to make a commit, this repository has been set-up to run a [pre-commit hook](.husky/pre-commit) that runs the following:
 
    ```sh
     # To spot any code issues
@@ -146,9 +142,12 @@ To test locally on the `gimme_readme` command-line tool, please ensure to do the
 
     # To spot any formatting issues
     npm run format
+
+    # To see if any of the existing tests are broken/need to be updated based on your update
+    npm run test
    ```
 
-   > Running these commands will increase the chance that your commit passes the [continuous integration tests](.github/workflows/ci.yml).
+   > This pre-commit hook aims to ensure that your commit passes the [continuous integration tests](.github/workflows/ci.yml).
 
 ## 7. Author
 
