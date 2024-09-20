@@ -2,12 +2,17 @@
 
 import fs from 'fs';
 import path from 'path';
-
 import groqModels from './ai_models/groqModels.js';
 import geminiModels from './ai_models/geminiModels.js';
 
+// function call flow is as follows
+// 1. promptAI
+// 2. promptAI calls initialize model
+// 3. initialize model calls promptGemini or promptGroq based on the parameters
+// 4. After the text is recieved , the output is written back to the file specified
+
 // Publicly available function
-export default async function promptAI(prompt, model, temperature, outputFile) {
+export default async function promptAI(prompt, model, temperature, outputFile, needToken) {
   if (model === null) {
     // Set the model to whatever is configured in their .env (default to gemini) and if that isn't set, set it to 'gemini'
     model = 'gemini-1.5-flash';
@@ -26,13 +31,14 @@ export default async function promptAI(prompt, model, temperature, outputFile) {
   }
 
   try {
-    const responseText = await initializeModel(prompt, model, temperature);
-    handleOutput(responseText, outputFile);
+    const promptResult = await initializeModel(prompt, model, temperature);
+    handleOutput(promptResult, outputFile, needToken);
   } catch (error) {
     throw new Error(error);
   }
 }
 
+// this function is used to initialize the client based on the model chosen by the user
 async function initializeModel(prompt, model, temperature) {
   if (geminiModels.includes(model)) {
     // Dynamically import geminiProvider.js and call promptGemini
@@ -47,10 +53,22 @@ async function initializeModel(prompt, model, temperature) {
   }
 }
 
-// handleOutput
-function handleOutput(responseText, outputFile) {
+// handleOutput - function used to write response back to the files specified by output
+function handleOutput(promptResult, outputFile, needToken) {
   if (outputFile === null) {
-    console.log(responseText);
+    if (needToken && promptResult.usage) {
+      const totalTokens = promptResult.usage.totalTokenCount;
+      const completionTokens = promptResult.usage.candidatesTokenCount;
+      const promptTokens = promptResult.usage.promptTokenCount;
+
+      console.log('\nToken Usage:');
+      console.log(`  Total Tokens: ${totalTokens}`);
+      console.log(`  Prompt Tokens: ${promptTokens}`);
+      console.log(`  Completion Tokens: ${completionTokens}`);
+
+      console.log(``);
+    }
+    console.log('Result: ' + promptResult.responseText);
     return;
   }
 
@@ -78,6 +96,16 @@ function handleOutput(responseText, outputFile) {
   }
 
   // Write the content to the file
-  fs.writeFileSync(filePath, responseText, 'utf-8');
+  if (needToken && promptResult.usage) {
+    const totalTokens = promptResult.usage.totalTokenCount;
+    const completionTokens = promptResult.usage.candidatesTokenCount;
+    const promptTokens = promptResult.usage.promptTokenCount;
+
+    console.log('\nToken Usage:');
+    console.log(`  Total Tokens: ${totalTokens}`);
+    console.log(`  Prompt Tokens: ${promptTokens}`);
+    console.log(`  Completion Tokens: ${completionTokens}`);
+  }
+  fs.writeFileSync(filePath, promptResult.responseText, 'utf-8');
   console.log(`Output successfully written to ${filePath}`);
 }
