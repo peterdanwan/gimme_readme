@@ -114,7 +114,7 @@ When making a pull request, please ensure that your changes are well-documented 
 
 ## 6. Testing Locally
 
-To test locally on the `gimme_readme` command-line tool, please ensure to do the following in sequence:
+If you are trying to contribute to the `gimme_readme` repository, please follow the following steps in sequence to test your changes locally:
 
 1. Ensure you have [Node.js installed](https://nodejs.org/en/download/package-manager)
 2. Fork this repository, and clone your _forked_ repository.
