@@ -46,17 +46,17 @@ To get started with `gimme_readme`, follow these steps:
 
 `gimme_readme` uses AI to generate a `README.md` file that explains a given source code file or files. Below are the available options:
 
-| Option                         | Description                                                               |
-| ------------------------------ | ------------------------------------------------------------------------- |
-| `-v`, `--version`              | Output the current version                                                |
-| `-f`, `--file [files...]`      | Specify one or more files to generate explanations for                    |
-| `-o`, `--outputFile <string>`  | Specify the file to output the generated README to                        |
-| `-m`, `--model <string>`       | Choose a free-tier AI model to use (e.g., gemini, openai, grok)           |
-| `-p`, `--prompt <string>`      | Provide a custom prompt to the AI                                         |
-| `-c`, `--config`               | Show the location of the configuration file and provide links to examples |
-| `-t`, `--temperature <number>` | Set the level of determinism for the AI (value between 0 and 1)           |
-| `-tkn`, `--token`              | specify the number of tokens used in the program                          |
-| `-h`, `--help`                 | Display help for the command                                              |
+| Option                         | Description                                                                       |
+| ------------------------------ | --------------------------------------------------------------------------------- |
+| `-v`, `--version`              | Output the current version                                                        |
+| `-f`, `--file [files...]`      | Specify one or more files to generate explanations for                            |
+| `-o`, `--outputFile <string>`  | Specify the file to output the generated README to                                |
+| `-m`, `--model <string>`       | Choose a free-tier AI model to use (e.g., gemini, openai, grok)                   |
+| `-p`, `--prompt <string>`      | Provide a custom prompt to the AI                                                 |
+| `-c`, `--config`               | Show the location of the configuration file and provide links to examples         |
+| `-t`, `--temperature <number>` | Set the level of determinism for the AI (value between 0 and 1)                   |
+| `-tkn`, `--token`              | get information on the tokens consumed (i.e., prompt, completion, & total tokens) |
+| `-h`, `--help`                 | Display help for the command                                                      |
 
 ## 3. Example Usage
 
