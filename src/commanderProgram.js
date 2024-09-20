@@ -48,7 +48,7 @@ program.option(
 );
 program.option(
   '-tkn, --token',
-  'get information on the tokens consumed (i.e., prompt, completion, & total tokens'
+  'get information on the tokens consumed (i.e., prompt, completion, & total tokens)'
 );
 
 // Exports the configured program

@@ -49,7 +49,7 @@ describe('src/commanderProgram.js tests', () => {
       {
         flags: '-tkn, --token',
         description:
-          'get information on the tokens consumed (i.e., prompt, completion, & total tokens',
+          'get information on the tokens consumed (i.e., prompt, completion, & total tokens)',
       },
     ];
 
