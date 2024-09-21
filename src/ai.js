@@ -109,9 +109,9 @@ function displayTokens(usage) {
   const completionTokens = usage.candidatesTokenCount || 0;
   const promptTokens = usage.promptTokenCount || 0;
 
-  console.log();
-  console.log(chalk.blue('Tokens Used:'));
-  console.log(`${chalk.yellow('Prompt Tokens:')} ${promptTokens}`);
-  console.log(`${chalk.yellow('Completion Tokens:')} ${completionTokens}`);
-  console.log(`${chalk.yellow('Total Tokens:')} ${totalTokens}`);
+  console.error();
+  console.error(chalk.blue('Tokens Used:'));
+  console.error(`${chalk.yellow('Prompt Tokens:')} ${promptTokens}`);
+  console.error(`${chalk.yellow('Completion Tokens:')} ${completionTokens}`);
+  console.error(`${chalk.yellow('Total Tokens:')} ${totalTokens}`);
 }
