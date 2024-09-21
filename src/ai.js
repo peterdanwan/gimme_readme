@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import groqModels from './ai_models/groqModels.js';
 import geminiModels from './ai_models/geminiModels.js';
+import chalk from 'chalk';
 
 // function call flow is as follows
 // 1. promptAI
@@ -57,16 +58,15 @@ async function initializeModel(prompt, model, temperature) {
 function handleOutput(promptResult, outputFile, needToken) {
   if (outputFile === null) {
     if (needToken && promptResult.usage) {
-      const totalTokens = promptResult.usage.totalTokenCount;
-      const completionTokens = promptResult.usage.candidatesTokenCount;
-      const promptTokens = promptResult.usage.promptTokenCount;
+      displayTokens(promptResult.usage);
+      // const totalTokens = promptResult.usage.totalTokenCount;
+      // const completionTokens = promptResult.usage.candidatesTokenCount;
+      // const promptTokens = promptResult.usage.promptTokenCount;
 
-      console.log('\nToken Usage:');
-      console.log(`  Total Tokens: ${totalTokens}`);
-      console.log(`  Prompt Tokens: ${promptTokens}`);
-      console.log(`  Completion Tokens: ${completionTokens}`);
-
-      console.log(``);
+      // console.log('\nTokens Used:');
+      // console.log(`${chalk.yellow('Prompt Tokens:')} ${promptTokens})}`);
+      // console.log(`${chalk.yellow('Completion Tokens:')} ${completionTokens}`);
+      // console.log(`${chalk.yellow('Total tokens:')} ${totalTokens}`);
     }
     console.log('Result: ' + promptResult.responseText);
     return;
@@ -97,15 +97,21 @@ function handleOutput(promptResult, outputFile, needToken) {
 
   // Write the content to the file
   if (needToken && promptResult.usage) {
-    const totalTokens = promptResult.usage.totalTokenCount;
-    const completionTokens = promptResult.usage.candidatesTokenCount;
-    const promptTokens = promptResult.usage.promptTokenCount;
-
-    console.log('\nToken Usage:');
-    console.log(`  Total Tokens: ${totalTokens}`);
-    console.log(`  Prompt Tokens: ${promptTokens}`);
-    console.log(`  Completion Tokens: ${completionTokens}`);
+    displayTokens(promptResult.usage);
   }
   fs.writeFileSync(filePath, promptResult.responseText, 'utf-8');
   console.log(`Output successfully written to ${filePath}`);
+}
+
+// Helper function to display token information with chalk formatting
+function displayTokens(usage) {
+  const totalTokens = usage.totalTokenCount || 0;
+  const completionTokens = usage.candidatesTokenCount || 0;
+  const promptTokens = usage.promptTokenCount || 0;
+
+  console.log();
+  console.log(chalk.blue('Tokens Used:'));
+  console.log(`${chalk.yellow('Prompt Tokens:')} ${promptTokens}`);
+  console.log(`${chalk.yellow('Completion Tokens:')} ${completionTokens}`);
+  console.log(`${chalk.yellow('Total Tokens:')} ${totalTokens}`);
 }
