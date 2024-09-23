@@ -1,4 +1,4 @@
-// src/getFileContent.js
+// src/file_functions/getFileContent.js
 
 import fs from 'fs';
 import path from 'path';

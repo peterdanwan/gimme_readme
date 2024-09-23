@@ -3,7 +3,7 @@
 // src/_gr.js
 
 import program from './commanderProgram.js';
-import getFileContent from './getFileContent.js';
+import getFileContent from './file_functions/getFileContent.js';
 import promptAI from './ai.js';
 import defaultPrompt from './defaultPrompt.js';
 import dotenv from 'dotenv';
