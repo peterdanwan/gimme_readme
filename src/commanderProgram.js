@@ -31,7 +31,7 @@ program.version(
 );
 
 // Options
-program.option('-f, --file [files...]', 'specify the files you wish to get explanations for');
+program.option('-f, --files [files...]', 'specify the files you wish to get explanations for');
 program.option('-o, --outputFile <string>', 'specify the file you wish to output to');
 program.option(
   '-m, --model <string>',
