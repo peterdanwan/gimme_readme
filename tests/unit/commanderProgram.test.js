@@ -27,7 +27,7 @@ describe('src/commanderProgram.js tests', () => {
         description: 'output the current version',
       },
       {
-        flags: '-f, --file [files...]',
+        flags: '-f, --files [files...]',
         description: 'specify the files you wish to get explanations for',
       },
       { flags: '-o, --outputFile <string>', description: 'specify the file you wish to output to' },
