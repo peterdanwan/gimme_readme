@@ -5,10 +5,12 @@ import os from 'os';
 import dotenv from 'dotenv';
 import chalk from 'chalk';
 import ora from 'ora';
+import fs from 'fs';
 
 import getFileContent from '../file_functions/getFileContent.js';
 import promptAI from '../ai.js';
 import defaultPrompt from '../defaultPrompt.js';
+import { glob } from 'glob'; // Add glob for pattern matching
 
 // Attempt to load .gimme_readme_config's environment variables
 const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
@@ -30,14 +32,48 @@ export default async function handleFilesOption(files, options) {
     process.exit(1);
   }
 
-  for (const file of files) {
-    try {
-      const content = getFileContent(file);
-      prompt += content + '\n\n';
-      validFiles.push(file);
-    } catch (error) {
-      console.error(error);
-      process.exit(1);
+  // Function to handle directories and add files within them
+  const addFilesFromDir = (directory) => {
+    const matchedFiles = glob.sync(`${directory}/**/*`);
+    for (const file of matchedFiles) {
+      if (fs.statSync(file).isFile()) {
+        try {
+          const content = getFileContent(file);
+          prompt += content + '\n\n';
+          validFiles.push(file);
+        } catch (error) {
+          console.error(`Error processing file: ${file}`);
+          console.error(error);
+        }
+      }
+    }
+  };
+
+  for (const filePattern of files) {
+    // Check if the input is a directory
+    if (fs.existsSync(filePattern) && fs.statSync(filePattern).isDirectory()) {
+      addFilesFromDir(filePattern);
+    } else {
+      // Handle file patterns (e.g., src/*)
+      const matchedFiles = glob.sync(filePattern);
+
+      if (matchedFiles.length === 0) {
+        console.log(`No files matched the pattern: ${filePattern}`);
+        continue;
+      }
+
+      for (const file of matchedFiles) {
+        if (fs.statSync(file).isFile()) {
+          try {
+            const content = getFileContent(file);
+            prompt += content + '\n\n';
+            validFiles.push(file);
+          } catch (error) {
+            console.error(`Error processing file: ${file}`);
+            console.error(error);
+          }
+        }
+      }
     }
   }
 
