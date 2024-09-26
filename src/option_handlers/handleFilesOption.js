@@ -7,6 +7,7 @@ import chalk from 'chalk';
 import ora from 'ora';
 
 import getFileContent from '../file_functions/getFileContent.js';
+import loadGitignore from '../file_functions/loadGitignore.js';
 import promptAI from '../ai.js';
 import defaultPrompt from '../defaultPrompt.js';
 
@@ -23,29 +24,58 @@ export default async function handleFilesOption(files, options) {
   const needToken = options.token || false;
 
   const validFiles = [];
+  const ignoredFiles = [];
 
   // Check if files is an array and has at least one entry
-  if (!Array.isArray(files)) {
+  if (!Array.isArray(files) || files.length === 0) {
     console.log("error: option '-f, --files [files...]' argument missing ");
     process.exit(1);
   }
 
+  // Load .gitignore and create an ignore object
+  const ig = loadGitignore();
+
+  // Process each file: filter based on .gitignore and collect valid/ignored files
   for (const file of files) {
+    const relativeFilePath = path.relative(process.cwd(), file);
+
+    if (ig.ignores(relativeFilePath)) {
+      ignoredFiles.push(file); // File matches .gitignore pattern
+    } else {
+      validFiles.push(file); // File does not match .gitignore
+    }
+  }
+
+  // Warn about ignored files
+  if (ignoredFiles.length > 0) {
+    console.warn(
+      chalk.yellow(`Ignoring the following files due to ${chalk.blue('.gitignore')} patterns:`)
+    );
+    ignoredFiles.forEach((file) => console.warn(`${chalk.white(' -')} ${chalk.yellow(file)}`));
+    console.log();
+  }
+
+  // If no valid files, exit the process
+  if (validFiles.length === 0) {
+    console.error(chalk.red('No valid files to process.'));
+    process.exit(1);
+  }
+
+  // Process valid files and append their content to the prompt
+  for (const file of validFiles) {
     try {
       const content = getFileContent(file);
       prompt += content + '\n\n';
-      validFiles.push(file);
     } catch (error) {
       console.error(error);
       process.exit(1);
     }
   }
 
+  // Display valid files that will be processed
   if (validFiles.length > 1) {
     console.log(chalk.blue('Sending files:'));
-    for (const validFile of validFiles) {
-      console.log(`- ${validFile}`);
-    }
+    validFiles.forEach((file) => console.log(`- ${file}`));
   } else {
     console.log(`${chalk.blue('Sending file')}: ${validFiles[0]}`);
   }
