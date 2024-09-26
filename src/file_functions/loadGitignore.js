@@ -2,17 +2,14 @@
 
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
 // Reference: https://www.npmjs.com/package/ignore
 import ignore from 'ignore';
 
-// Define __dirname for ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+// Publicly available function
 export default function loadGitignore() {
-  const gitignorePath = path.resolve(__dirname, '../.gitignore');
+  // Resolve .gitignore relative to the current working directory
+  const gitignorePath = path.resolve(process.cwd(), '.gitignore');
 
   // If the file doesn't exist, return an empty instance of ignore();
   if (!fs.existsSync(gitignorePath)) {
