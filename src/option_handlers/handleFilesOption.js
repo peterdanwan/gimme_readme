@@ -5,11 +5,13 @@ import os from 'os';
 import dotenv from 'dotenv';
 import chalk from 'chalk';
 import ora from 'ora';
+import fs from 'fs';
 
 import getFileContent from '../file_functions/getFileContent.js';
 import loadGitignore from '../file_functions/loadGitignore.js';
 import promptAI from '../ai.js';
 import defaultPrompt from '../defaultPrompt.js';
+import { glob } from 'glob'; // Add glob for pattern matching
 
 // Attempt to load .gimme_readme_config's environment variables
 const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
@@ -36,17 +38,59 @@ export default async function handleFilesOption(files, options) {
   const ig = loadGitignore();
 
   // Process each file: filter based on .gitignore and collect valid/ignored files
-  for (const file of files) {
-    const relativeFilePath = path.relative(process.cwd(), file);
+  // Function to handle directories and add files within them
+  const addFilesFromDir = (directory) => {
+    const matchedFiles = glob.sync(`${directory}/**/*`);
+    for (const file of matchedFiles) {
+      if (fs.statSync(file).isFile()) {
+        const relativeFilePath = path.relative(process.cwd(), file);
+        if (ig.ignores(relativeFilePath)) {
+          ignoredFiles.push(file);
+        } else {
+          try {
+            const content = getFileContent(file);
+            prompt += content + '\n\n';
+            validFiles.push(file);
+          } catch (error) {
+            console.error(`Error processing file: ${file}`);
+            console.error(error);
+          }
+        }
+      }
+    }
+  };
 
-    if (ig.ignores(relativeFilePath)) {
-      ignoredFiles.push(file); // File matches .gitignore pattern
+  for (const filePattern of files) {
+    if (fs.existsSync(filePattern) && fs.statSync(filePattern).isDirectory()) {
+      addFilesFromDir(filePattern);
     } else {
-      validFiles.push(file); // File does not match .gitignore
+      const matchedFiles = glob.sync(filePattern);
+
+      if (matchedFiles.length === 0) {
+        console.log(`No files matched the pattern: ${filePattern}`);
+        continue;
+      }
+
+      for (const file of matchedFiles) {
+        if (fs.statSync(file).isFile()) {
+          const relativeFilePath = path.relative(process.cwd(), file);
+          if (ig.ignores(relativeFilePath)) {
+            ignoredFiles.push(file);
+          } else {
+            try {
+              const content = getFileContent(file);
+              prompt += content + '\n\n';
+              validFiles.push(file);
+            } catch (error) {
+              console.error(`Error processing file: ${file}`);
+              console.error(error);
+            }
+          }
+        }
+      }
     }
   }
 
-  // Warn about ignored files
   if (ignoredFiles.length > 0) {
     console.warn(
       chalk.yellow(`Ignoring the following files due to ${chalk.blue('.gitignore')} patterns:`)
@@ -55,24 +99,11 @@ export default async function handleFilesOption(files, options) {
     console.log();
   }
 
-  // If no valid files, exit the process
   if (validFiles.length === 0) {
     console.error(chalk.red('No valid files to process.'));
     process.exit(1);
   }
 
-  // Process valid files and append their content to the prompt
-  for (const file of validFiles) {
-    try {
-      const content = getFileContent(file);
-      prompt += content + '\n\n';
-    } catch (error) {
-      console.error(error);
-      process.exit(1);
-    }
-  }
-
-  // Display valid files that will be processed
   if (validFiles.length > 1) {
     console.log(chalk.blue('Sending files:'));
     validFiles.forEach((file) => console.log(`- ${file}`));
