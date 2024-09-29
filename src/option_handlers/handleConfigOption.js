@@ -7,10 +7,11 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const __homeDir = os.homedir();
 
 // Function to handle config option
 export default function handleConfigOption() {
-  const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
+  const configFilePath = path.join(__homeDir, '.gimme_readme_config');
 
   if (!fs.existsSync(configFilePath)) {
     // Construct the path to env.sample within the gimme_readme project directory
