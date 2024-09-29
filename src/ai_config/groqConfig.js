@@ -10,12 +10,16 @@ import path from 'path';
 const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
 dotenv.config({ path: configFilePath });
 
-// Initialize groq AI client
-const groq = new Groq({ apiKey: process.env.GROQ_KEY });
+
 
 // Export function to handle Groq-specific prompting
-export async function promptGroq(prompt, model, temperature = 0.5) {
+export async function promptGroq(prompt, model, temperature = 0.5, apiKey = "") {
   try {
+    // Use provided apiKey, otherwise fall back to environment variable
+    const groqApiKey = apiKey || process.env.GROQ_KEY;
+
+    // Initialize Groq AI client with the provided APIKEY either on the TOML or env or argument.
+    const groq = new Groq({ apiKey: groqApiKey });
     // Dynamically initialize the Groq model based on user input
     const chatCompletion = await groq.chat.completions.create({
       messages: [

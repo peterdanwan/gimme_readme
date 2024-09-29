@@ -13,7 +13,7 @@ import chalk from 'chalk';
 // 4. After the text is recieved , the output is written back to the file specified
 
 // Publicly available function
-export default async function promptAI(prompt, model, temperature, outputFile, needToken) {
+export default async function promptAI(prompt, model, temperature, outputFile, needToken, apiKey = "") {
   if (model === null) {
     // Set the model to whatever is configured in their .env (default to gemini) and if that isn't set, set it to 'gemini'
     model = 'gemini-1.5-flash';
@@ -32,7 +32,7 @@ export default async function promptAI(prompt, model, temperature, outputFile, n
   }
 
   try {
-    const promptResult = await initializeModel(prompt, model, temperature);
+    const promptResult = await initializeModel(prompt, model, temperature, apiKey);
     handleOutput(promptResult, outputFile, needToken);
   } catch (error) {
     throw new Error(error);
@@ -40,15 +40,15 @@ export default async function promptAI(prompt, model, temperature, outputFile, n
 }
 
 // this function is used to initialize the client based on the model chosen by the user
-async function initializeModel(prompt, model, temperature) {
+async function initializeModel(prompt, model, temperature, apiKey = "") {
   if (geminiModels.includes(model)) {
     // Dynamically import geminiProvider.js and call promptGemini
     const { promptGemini } = await import('./ai_config/geminiConfig.js');
-    return await promptGemini(prompt, model, temperature);
+    return await promptGemini(prompt, model, temperature, apiKey);
   } else if (groqModels.includes(model)) {
     // Dynamically import groqProvider.js and call promptGroq
-    const { promptGroq } = await import('./ai_config/groqConfig.js');
-    return await promptGroq(prompt, model, temperature);
+    const { promptGroq } =  await import('./ai_config/groqConfig.js');
+    return await promptGroq(prompt, model, temperature, apiKey);
   } else {
     throw new Error(`${model} is an unsupported model`);
   }

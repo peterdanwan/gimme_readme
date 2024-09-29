@@ -25,7 +25,10 @@ export default async function handleFilesOption(files, options) {
   const temperature = options.temperature || process.env.TEMPERATURE || 0.5;
   const needToken = options.token || false;
 
-  console.log(model, outputFile, temperature, needToken)
+  // issue -31
+  const apiKey = options.groq_key || options.gemini_key || options.openai_key
+  
+
   const validFiles = [];
   const ignoredFiles = [];
 
@@ -115,7 +118,7 @@ export default async function handleFilesOption(files, options) {
   const spinner = ora(` Waiting for a response from the ${chalk.blue(model)} model...\n`).start();
 
   try {
-    await promptAI(prompt, model, temperature, outputFile, needToken);
+    await promptAI(prompt, model, temperature, outputFile, needToken, apiKey);
     spinner.succeed(` Response received from ${chalk.blue(model)} model`);
   } catch (error) {
     spinner.fail(` Failed to receive response from ${chalk.red(model)} model`);

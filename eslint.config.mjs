@@ -15,4 +15,11 @@ export default [
       },
     },
   },
+  {
+    // add for issue 31 - TOML configuration
+    files: ['*.gr.toml'],
+    languageOptions: {
+      parser: 'toml-eslint-parser',
+    },
+  },
 ];

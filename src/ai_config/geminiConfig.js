@@ -11,12 +11,15 @@ const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
 dotenv.config({ path: configFilePath });
 
 // Initialize Google Generative AI client
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 
 // Export function to handle Gemini-specific prompting
-export async function promptGemini(prompt, model, temperature = 0.5) {
+export async function promptGemini(prompt, model, temperature = 0.5, apiKey) {
   try {
     // Dynamically initialize the Gemini model based on user input
+    // issue-31 dynamic get apikey from .toml config
+    const genAIAPI = apiKey ? apiKey : process.env.GEMINI_KEY
+    const genAI = new GoogleGenerativeAI(genAIAPI);
+
     const generativeModel = genAI.getGenerativeModel({ model, temperature });
     const result = await generativeModel.generateContent(prompt);
     const responseText = result.response.text();
