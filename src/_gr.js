@@ -8,22 +8,30 @@ import program from './commanderProgram.js';
 import handleConfigOption from './option_handlers/handleConfigOption.js';
 import handleHelpOption from './option_handlers/handleHelpOption.js';
 import handleFilesOption from './option_handlers/handleFilesOption.js';
+
+// issue-31
 import handleTOMLOption from './option_handlers/handleTOMLOption.js';
+import normConfigCase from './option_handlers/handleConfigCase.js';
 
 async function main() {
-
-  const TOML_CONFIG = handleTOMLOption()
+  // issue-31
+  const TOML_CONFIG = handleTOMLOption();
 
   const args = process.argv;
   program.parse(args);
 
   const options = program.opts();
 
-  const mergeOptions = {
+  // issue-31
+  let mergeOptions = {
     ...TOML_CONFIG,
-    ...options
-  }
-  console.log(mergeOptions)
+    ...options,
+  };
+
+  // perform normalize the case because the config can be upper or lower.
+  // issue-31
+  mergeOptions = normConfigCase(mergeOptions)
+
 
   if (args.length == 2) {
     handleHelpOption(program);
@@ -37,8 +45,9 @@ async function main() {
     //const files = options['files'];
     //await handleFilesOption(files, options);
 
+    // issue-31
     const files = mergeOptions['files'];
-    await handleFilesOption(files, mergeOptions)
+    await handleFilesOption(files, mergeOptions);
   }
 }
 

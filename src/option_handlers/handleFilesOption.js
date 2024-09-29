@@ -25,6 +25,7 @@ export default async function handleFilesOption(files, options) {
   const temperature = options.temperature || process.env.TEMPERATURE || 0.5;
   const needToken = options.token || false;
 
+  console.log(model, outputFile, temperature, needToken)
   const validFiles = [];
   const ignoredFiles = [];
 
