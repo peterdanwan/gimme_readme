@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 // src/_gr.js
-
 import program from './commanderProgram.js';
 
 // Option handlers
@@ -26,6 +25,11 @@ async function main() {
   if (options.files) {
     const files = options['files'];
     await handleFilesOption(files, options);
+  } else {
+    console.error(
+      "No files specified to process. Use '--files' or '-f option or configure files='..' in .toml file."
+    );
+    process.exit(0);
   }
 }
 

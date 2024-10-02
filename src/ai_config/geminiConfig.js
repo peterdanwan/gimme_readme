@@ -2,16 +2,13 @@
 
 // Reference: https://ai.google.dev/gemini-api/docs/text-generation?lang=node
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import dotenv from 'dotenv';
-import os from 'os';
-import path from 'path';
+import getTOMLFileValues from '../file_functions/getTOMLFileValues';
 
-// Make values from .env available
-const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
-dotenv.config({ path: configFilePath });
+const toml = getTOMLFileValues();
+const geminiKey = toml.api_keys.GEMINI_KEY || process.env.GEMINI_KEY;
 
 // Initialize Google Generative AI client
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
+const genAI = new GoogleGenerativeAI(geminiKey);
 
 // Export function to handle Gemini-specific prompting
 export async function promptGemini(prompt, model, temperature = 0.5) {
