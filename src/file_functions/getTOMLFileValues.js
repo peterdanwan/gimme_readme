@@ -11,7 +11,9 @@ const __homeDir = os.homedir();
 export default function getTOMLFileValues() {
   const tomlFile = path.join(__homeDir, '.gimme_readme_config');
 
-  if (!fs.existsSync(tomlFile)) return null;
+  if (!fs.existsSync(tomlFile)) {
+    return null;
+  }
 
   try {
     const configContent = fs.readFileSync(tomlFile, 'utf-8');
