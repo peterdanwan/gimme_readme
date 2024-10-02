@@ -11,15 +11,19 @@ const __homeDir = os.homedir();
 export default function getTOMLFileValues() {
   const tomlFile = path.join(__homeDir, '.gimme_readme_config');
 
+  if (!fs.existsSync(tomlFile)) {
+    return null;
+  }
+
   try {
     const configContent = fs.readFileSync(tomlFile, 'utf-8');
     const tomlParser = parseTOML(configContent);
     const config = getStaticTOMLValue(tomlParser);
     return config;
-  } catch (err) {
+  } catch (error) {
     console.error(
-      `Error at handleConfigOption when system is reading TOML at ${tomlFile} with error ${err}`
+      `Error parsing .gimme_readme_config. File is not formatted using TOML syntax: ${error}`
     );
-    return null;
+    process.exit(1);
   }
 }
