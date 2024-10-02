@@ -1,34 +1,28 @@
 // src/option_handlers/handleFilesOption.js
 
 import path from 'path';
-import os from 'os';
-import dotenv from 'dotenv';
+
 import chalk from 'chalk';
 import ora from 'ora';
 import fs from 'fs';
 
+import getTOMLFileValues from '../file_functions/getTOMLFileValues.js';
 import getFileContent from '../file_functions/getFileContent.js';
 import loadGitignore from '../file_functions/loadGitignore.js';
 import promptAI from '../ai.js';
 import defaultPrompt from '../defaultPrompt.js';
 import { glob } from 'glob'; // Add glob for pattern matching
 
-// Attempt to load .gimme_readme_config's environment variables
-const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
-dotenv.config({ path: configFilePath });
-
 export default async function handleFilesOption(files, options) {
-  // Let the user specify their own prompt, or use the prompt that we have engineered
-  let prompt = options.prompt || process.env.CUSTOM_PROMPT || defaultPrompt;
-  const model = options.model || process.env.MODEL || 'gemini-1.5-flash';
-  const outputFile = options.outputFile || process.env.OUTPUT_FILE || null; // if no options are being specified, the option would be null, which means it will go out to terminal in the console
-  const temperature = options.temperature || process.env.TEMPERATURE || 0.5;
-  const needToken = options.token || false;
+  // cli || .gimme_readme_config || process.env.VAL || hardcoded default;
+  const toml = getTOMLFileValues();
 
-  // issue -31
-  const apiKey = options.groq_key || options.gemini_key || options.openai_key
-  
-
+  let prompt = options.prompt || toml?.CUSTOM_PROMPT || process.env.CUSTOM_PROMPT || defaultPrompt;
+  const model = options.model || toml?.preferences.MODEL || process.env.MODEL || 'gemini-1.5-flash';
+  const outputFile = options.outputFile || toml?.OUTPUT_FILE || process.env.OUTPUT_FILE || null; // if no options are being specified, the option would be null, which means it will go out to terminal in the console
+  const temperature =
+    options.temperature || toml?.preferences.TEMPERATURE || process.env.TEMPERATURE || 0.5;
+  const needToken = options.token || toml?.TOKEN || false;
   const validFiles = [];
   const ignoredFiles = [];
 
@@ -118,7 +112,7 @@ export default async function handleFilesOption(files, options) {
   const spinner = ora(` Waiting for a response from the ${chalk.blue(model)} model...\n`).start();
 
   try {
-    await promptAI(prompt, model, temperature, outputFile, needToken, apiKey);
+    await promptAI(prompt, model, temperature, outputFile, needToken);
     spinner.succeed(` Response received from ${chalk.blue(model)} model`);
   } catch (error) {
     spinner.fail(` Failed to receive response from ${chalk.red(model)} model`);
