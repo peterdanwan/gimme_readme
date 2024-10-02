@@ -2,24 +2,17 @@
 
 // Reference: https://console.groq.com/docs/text-chat#performing-a-basic-chat-completion
 import Groq from 'groq-sdk';
-import dotenv from 'dotenv';
-import os from 'os';
-import path from 'path';
+import getTOMLFileValues from '../file_functions/getTOMLFileValues.js';
 
-// Make values from .env available
-const configFilePath = path.join(os.homedir(), '.gimme_readme_config');
-dotenv.config({ path: configFilePath });
+const toml = getTOMLFileValues();
 
-
+// Use apiKey provided in file, otherwise fall back to environment variable
+const apiKey = toml.api_keys.GROQ_KEY || process.env.GROQ_KEY;
+const groq = new Groq({ apiKey });
 
 // Export function to handle Groq-specific prompting
-export async function promptGroq(prompt, model, temperature = 0.5, apiKey = "") {
+export async function promptGroq(prompt, model, temperature = 0.5) {
   try {
-    // Use provided apiKey, otherwise fall back to environment variable
-    const groqApiKey = apiKey || process.env.GROQ_KEY;
-
-    // Initialize Groq AI client with the provided APIKEY either on the TOML or env or argument.
-    const groq = new Groq({ apiKey: groqApiKey });
     // Dynamically initialize the Groq model based on user input
     const chatCompletion = await groq.chat.completions.create({
       messages: [
