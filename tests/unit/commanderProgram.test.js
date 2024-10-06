@@ -36,6 +36,7 @@ describe('src/commanderProgram.js tests', () => {
         description: `specify which free-tier model you'd want to use \ne.g., ${modelsString}`,
       },
       { flags: '-p, --prompt <string>', description: 'specify a custom prompt' },
+      { flags: '-pf, --promptFile <string>', description: 'specify a prompt file' },
       {
         flags: '-c, --config',
         description:

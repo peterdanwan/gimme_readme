@@ -14,10 +14,28 @@ import defaultPrompt from '../defaultPrompt.js';
 import { glob } from 'glob'; // Add glob for pattern matching
 
 export default async function handleFilesOption(files, options) {
-  // cli || .gimme_readme_config || process.env.VAL || hardcoded default;
   const toml = getTOMLFileValues();
 
-  let prompt = options.prompt || toml?.CUSTOM_PROMPT || process.env.CUSTOM_PROMPT || defaultPrompt;
+  let prompt;
+
+  // Check if both -p and -pf are used
+  if (options.prompt && options.promptFile) {
+    console.error(chalk.red("Error: Cannot use both '-p' and '-pf' simultaneously"));
+    process.exit(1);
+  }
+
+  if (options.promptFile) {
+    const promptFilePath = path.resolve(process.cwd(), options.promptFile);
+    try {
+      prompt = getFileContent(promptFilePath);
+    } catch (error) {
+      console.error(chalk.red(`Error reading prompt file: ${error.message}`));
+      process.exit(1);
+    }
+  } else if (options.prompt) {
+    prompt = options.prompt || defaultPrompt;
+  }
+
   const model = options.model || toml?.preferences.MODEL || process.env.MODEL || 'gemini-1.5-flash';
   const outputFile = options.outputFile || toml?.OUTPUT_FILE || process.env.OUTPUT_FILE || null; // if no options are being specified, the option would be null, which means it will go out to terminal in the console
   const temperature =

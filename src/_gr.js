@@ -7,6 +7,7 @@ import program from './commanderProgram.js';
 import handleConfigOption from './option_handlers/handleConfigOption.js';
 import handleHelpOption from './option_handlers/handleHelpOption.js';
 import handleFilesOption from './option_handlers/handleFilesOption.js';
+import handleNoFilesOption from './option_handlers/handleNoFilesOption.js';
 
 async function main() {
   const args = process.argv;
@@ -26,10 +27,7 @@ async function main() {
     const files = options['files'];
     await handleFilesOption(files, options);
   } else {
-    console.error(
-      "No files specified to process. Use '--files' or '-f option or configure files='..' in .toml file."
-    );
-    process.exit(0);
+    await handleNoFilesOption(options);
   }
 }
 
