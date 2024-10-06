@@ -38,6 +38,7 @@ program.option(
   `specify which free-tier model you'd want to use \ne.g., ${modelsString}`
 );
 program.option('-p, --prompt <string>', 'specify a custom prompt');
+program.option('-pf, --promptFile <string>', 'specify a prompt file');
 program.option(
   '-c, --config',
   "makes a .gimme_readme_config file if it doesn't exist and/or shows the location of this config file"
