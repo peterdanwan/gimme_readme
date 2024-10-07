@@ -34,6 +34,8 @@ export default async function handleFilesOption(files, options) {
     }
   } else if (options.prompt) {
     prompt = options.prompt || defaultPrompt;
+  } else {
+    prompt = defaultPrompt;
   }
 
   const model = options.model || toml?.preferences.MODEL || process.env.MODEL || 'gemini-1.5-flash';
