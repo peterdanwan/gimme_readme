@@ -1,12 +1,12 @@
-// src/commanderProgram.js
+// src/commander/commanderProgram.js
 
 // Lets us use commonjs require syntax for older modules
 import { createRequire } from 'module';
 import chalk from 'chalk';
-import modelsString from './ai_models/index.js';
+import modelsString from '../ai/models/index.js';
 
 const require = createRequire(import.meta.url);
-const { name, version, description } = require('../package.json');
+const { name, version, description } = require('../../package.json');
 
 // Reference: https://github.com/tj/commander.js
 const { Command } = require('commander');

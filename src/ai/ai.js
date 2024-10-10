@@ -1,9 +1,9 @@
-// src/ai.js
+// src/ai/ai.js
 
 import fs from 'fs';
 import path from 'path';
-import groqModels from './ai_models/groqModels.js';
-import geminiModels from './ai_models/geminiModels.js';
+import groqModels from './models/groqModels.js';
+import geminiModels from './models/geminiModels.js';
 import chalk from 'chalk';
 
 // function call flow is as follows
@@ -43,11 +43,11 @@ export default async function promptAI(prompt, model, temperature, outputFile, n
 async function initializeModel(prompt, model, temperature) {
   if (geminiModels.includes(model)) {
     // Dynamically import geminiProvider.js and call promptGemini
-    const { promptGemini } = await import('./ai_config/geminiConfig.js');
+    const { promptGemini } = await import('./config/geminiConfig.js');
     return await promptGemini(prompt, model, temperature);
   } else if (groqModels.includes(model)) {
     // Dynamically import groqProvider.js and call promptGroq
-    const { promptGroq } = await import('./ai_config/groqConfig.js');
+    const { promptGroq } = await import('./config/groqConfig.js');
     return await promptGroq(prompt, model, temperature);
   } else {
     throw new Error(`${model} is an unsupported model`);
@@ -59,14 +59,6 @@ function handleOutput(promptResult, outputFile, needToken) {
   if (outputFile === null) {
     if (needToken && promptResult.usage) {
       displayTokens(promptResult.usage);
-      // const totalTokens = promptResult.usage.totalTokenCount;
-      // const completionTokens = promptResult.usage.candidatesTokenCount;
-      // const promptTokens = promptResult.usage.promptTokenCount;
-
-      // console.log('\nTokens Used:');
-      // console.log(`${chalk.yellow('Prompt Tokens:')} ${promptTokens})}`);
-      // console.log(`${chalk.yellow('Completion Tokens:')} ${completionTokens}`);
-      // console.log(`${chalk.yellow('Total tokens:')} ${totalTokens}`);
     }
     console.log('Result: ' + promptResult.responseText);
     return;
@@ -109,9 +101,13 @@ function displayTokens(usage) {
   const completionTokens = usage.candidatesTokenCount || 0;
   const promptTokens = usage.promptTokenCount || 0;
 
-  console.error();
-  console.error(chalk.blue('Tokens Used:'));
-  console.error(`${chalk.yellow('Prompt Tokens:')} ${promptTokens}`);
-  console.error(`${chalk.yellow('Completion Tokens:')} ${completionTokens}`);
-  console.error(`${chalk.yellow('Total Tokens:')} ${totalTokens}`);
+  outputTokenInfoToStandardError();
+
+  function outputTokenInfoToStandardError() {
+    console.error();
+    console.error(chalk.blue('Tokens Used:'));
+    console.error(`${chalk.yellow('Prompt Tokens:')} ${promptTokens}`);
+    console.error(`${chalk.yellow('Completion Tokens:')} ${completionTokens}`);
+    console.error(`${chalk.yellow('Total Tokens:')} ${totalTokens}`);
+  }
 }

@@ -1,14 +1,14 @@
-// tests/unit/commanderProgram.test.js
+// tests/unit/commander/commanderProgram.test.js
 
-import program from '../../src/commanderProgram.js';
-import modelsString from '../../src/ai_models/index.js';
+import program from '../../../src/commander/commanderProgram.js';
+import modelsString from '../../../src/ai/models/index.js';
 import { createRequire } from 'module';
 import chalk from 'chalk';
 
 const require = createRequire(import.meta.url);
-const { name, version, description } = require('../../package.json');
+const { name, version, description } = require('../../../package.json');
 
-describe('src/commanderProgram.js tests', () => {
+describe('src/commander/commanderProgram.js tests', () => {
   test("The program's name, description, and version match what's in package.json", () => {
     const colourizedVersion = `${chalk.blue('gimme_readme')}: ${version}`;
 

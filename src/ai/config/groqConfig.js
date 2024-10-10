@@ -1,8 +1,8 @@
-// src/ai_config/groqConfig.js
+// src/ai/config/groqConfig.js
 
 // Reference: https://console.groq.com/docs/text-chat#performing-a-basic-chat-completion
 import Groq from 'groq-sdk';
-import getTOMLFileValues from '../file_functions/getTOMLFileValues.js';
+import getTOMLFileValues from '../../file_functions/getTOMLFileValues.js';
 
 const toml = getTOMLFileValues();
 

@@ -1,4 +1,4 @@
-// src/ai_models/groqModels.js
+// src/ai/models/groqModels.js
 
 const groqModels = ['llama3-8b-8192'];
 

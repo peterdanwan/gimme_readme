@@ -5,13 +5,11 @@ import ora from 'ora';
 import path from 'path';
 
 import getFileContent from '../file_functions/getFileContent.js';
-import getTOMLFileValues from '../file_functions/getTOMLFileValues.js';
-import promptAI from '../ai.js';
-import defaultPrompt from '../defaultPrompt.js';
+import promptAI from '../ai/ai.js';
+import defaultPrompt from '../prompt/defaultPrompt.js';
+import getUserOptions from '../commander/getUserOptions.js';
 
 export default async function handleNoFilesOption(options) {
-  const toml = getTOMLFileValues();
-
   let prompt;
 
   // Check if both -p and -pf are used
@@ -34,11 +32,7 @@ export default async function handleNoFilesOption(options) {
     prompt = defaultPrompt;
   }
 
-  const model = options.model || toml?.preferences.MODEL || process.env.MODEL || 'gemini-1.5-flash';
-  const outputFile = options.outputFile || toml?.OUTPUT_FILE || process.env.OUTPUT_FILE || null;
-  const temperature =
-    options.temperature || toml?.preferences.TEMPERATURE || process.env.TEMPERATURE || 0.5;
-  const needToken = options.token || toml?.TOKEN || false;
+  const { model, outputFile, temperature, needToken } = getUserOptions(options);
 
   console.log(chalk.blue('Sending prompt to the model...'));
 

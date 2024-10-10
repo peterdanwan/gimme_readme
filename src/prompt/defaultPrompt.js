@@ -1,4 +1,4 @@
-// src/defaultPrompt.js
+// src/prompt/defaultPrompt.js
 
 export default `Take the code from each file sent and produce a comprehensive response in markdown format explaining the code. 
 

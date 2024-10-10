@@ -1,4 +1,4 @@
-// tests/unit/handleTOMLOption
+// tests/unit/file_functions/getConfigFileValues.test.js
 
 describe('TOML Config tests', () => {
   describe('TOML Mockup Test config', () => {

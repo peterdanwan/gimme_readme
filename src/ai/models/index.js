@@ -1,4 +1,4 @@
-// src/ai_models/index.js
+// src/ai/models/index.js
 
 import geminiModels from './geminiModels.js';
 import groqModels from './groqModels.js';

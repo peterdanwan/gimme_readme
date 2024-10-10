@@ -1,9 +1,9 @@
-// tests/unit/ai_models/index.test.js
-import modelsString from '../../../src/ai_models';
-import groqModels from '../../../src/ai_models/groqModels';
-import geminiModels from '../../../src/ai_models/geminiModels';
+// tests/unit/ai/models/index.test.js
+import modelsString from '../../../../src/ai/models/index.js';
+import groqModels from '../../../../src/ai/models/groqModels.js';
+import geminiModels from '../../../../src/ai/models/geminiModels.js';
 
-describe('src/ai_models/index.js tests', () => {
+describe('src/ai/models/index.js tests', () => {
   describe('Should return a string with all the models inside', () => {
     test("typeof modelsString === 'string'", () => {
       expect(typeof modelsString).toBe('string');

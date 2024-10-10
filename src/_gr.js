@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // src/_gr.js
-import program from './commanderProgram.js';
+import program from './commander/commanderProgram.js';
 
 // Option handlers
 import handleConfigOption from './option_handlers/handleConfigOption.js';

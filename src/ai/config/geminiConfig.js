@@ -1,8 +1,8 @@
-// src/ai_model_config/geminiConfig.js
+// src/ai/config/geminiConfig.js
 
 // Reference: https://ai.google.dev/gemini-api/docs/text-generation?lang=node
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import getTOMLFileValues from '../file_functions/getTOMLFileValues.js';
+import getTOMLFileValues from '../../file_functions/getTOMLFileValues.js';
 
 const toml = getTOMLFileValues();
 const geminiKey = toml.api_keys.GEMINI_KEY || process.env.GEMINI_KEY;
