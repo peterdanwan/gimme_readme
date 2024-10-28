@@ -48,3 +48,19 @@ gr-ai -m gemini-1.5-flash -f tests/unit/_gr.test.js -o explanation.md -t 0.1
 ```
 
 ![explain-file](assets/images/explain-file.png)
+
+## Use the text from a custom prompt file, and send files within a particular folder
+
+```sh
+gr-ai -pf prompt.md -f src/ -o explain.md
+```
+
+![send-a-prompt-file-and-folder](assets/images/send-a-prompt-file-and-folder.png)
+
+## Make a prompt directly from the command-line
+
+```sh
+gr-ai -p "Can you provide your best explanation of a static analysis tool, with examples in JavaScript?" -o explanation.md
+```
+
+![prompt-from-command-line](assets/images/prompt-from-command-line.png)

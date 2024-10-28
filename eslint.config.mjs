@@ -16,10 +16,15 @@ export default [
     },
   },
   {
-    // add for issue 31 - TOML configuration
-    files: ['*.gr.toml'],
-    languageOptions: {
-      parser: 'toml-eslint-parser',
-    },
+    ignores: [
+      '_examples/**',
+      '.git/**',
+      '.github/**',
+      '.husky/**',
+      '.vscode/**',
+      'node_modules/**',
+      'package.json',
+      'package-lock.json',
+    ],
   },
 ];
