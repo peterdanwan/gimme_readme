@@ -13,8 +13,9 @@ See our [0.1 Release Demo](https://youtu.be/S6v-u9o_Xx8)!
 3. [Example Usage](#3-example-usage)
 4. [Supported Models by Providers](#4-supported-models-by-providers)
 5. [Contributing](#5-contributing)
-6. [Testing Locally](#6-testing-locally)
-7. [Author](#7-author)
+6. [Code of Conduct](#6-code-of-conduct)
+7. [License](#7-license)
+8. [Author](#8-author)
 
 ## 1. Getting Started
 
@@ -53,9 +54,10 @@ To get started with `gimme_readme`, follow these steps:
 | `-o`, `--outputFile <string>`  | Specify the file to output the generated README to                                |
 | `-m`, `--model <string>`       | Choose a free-tier AI model to use (e.g., gemini, openai, grok)                   |
 | `-p`, `--prompt <string>`      | Provide a custom prompt to the AI                                                 |
+| `-pf`, `--promptFile <string>` | Specify a prompt file                                                             |
 | `-c`, `--config`               | Show the location of the configuration file and provide links to examples         |
 | `-t`, `--temperature <number>` | Set the level of determinism for the AI (value between 0 and 1)                   |
-| `-tkn`, `--token`              | get information on the tokens consumed (i.e., prompt, completion, & total tokens) |
+| `-tkn`, `--token`              | Get information on the tokens consumed (i.e., prompt, completion, & total tokens) |
 | `-h`, `--help`                 | Display help for the command                                                      |
 
 ## 3. Example Usage
@@ -103,53 +105,17 @@ gr-ai -f example.js anotherFile.py -o README.md -m llama3-8b-8192 --token
 
 ## 5. Contributing
 
-We welcome contributions to improve `gimme_readme`! To contribute, please follow these steps:
+We welcome contributions to improve `gimme_readme`! To get started with contributing, we ask that you read our [contributing guide](./CONTRIBUTING.md)
 
-1. Check the [existing issues](https://github.com/peterdanwan/gimme_readme/issues) to see if your issue or feature request has already been logged.
-2. If your issue or feature request is already listed, add your comments or create a pull request with your proposed changes.
-3. If your issue or suggestion is not listed, feel free to create a new issue. If possible, provide a pull request that addresses the issue.
-4. To test your local changes to `gimme_readme`, please read section [6. Testing Locally](#6-testing-locally)
+## 6. Code of Conduct
 
-When making a pull request, please ensure that your changes are well-documented and adhere to the coding standards of the project.
+We are committed to providing a welcoming and inclusive experience for everyone. By participating in this project, you agree to abide by our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
-## 6. Testing Locally
+## 7. License
 
-If you are trying to contribute to the `gimme_readme` repository, please follow the following steps in sequence to test your changes locally:
+This project is licensed under the MIT license. You are free to use, modify, and distribute this code, subject to the terms in the [LICENSE](./LICENSE) file.
 
-1. Ensure you have [Node.js installed](https://nodejs.org/en/download/package-manager)
-2. Fork this repository, and clone your _forked_ repository.
-3. On your machine, after cloning your forked repository, navigate to the _root_ of the cloned repository and run the following:
-
-   ```sh
-   # Remove the pre-existing, global installation of the gimme-readme repository.
-   npm uninstall -g gimme_readme
-
-   # Install the necessary node_modules
-   npm i
-
-   # Simulate the environment as if gimme-readme was installed globally via `npm i -g gimme_readme`
-   # You can now use the `gr-ai` executable, and changes to your source code should be reflected when you make changes to the repo
-   # If your changes aren't reflected after changing the source code, repeat the commands above in sequence.
-   npm link
-   ```
-
-4. After adding any new code, please try to have a `test` case made for this code as well.
-5. When you're ready to make a commit, this repository has been set-up to run a [pre-commit hook](.husky/pre-commit) that runs the following:
-
-   ```sh
-    # To spot any code issues
-    npm run lint
-
-    # To spot any formatting issues
-    npm run format
-
-    # To see if any of the existing tests are broken/need to be updated based on your update
-    npm run test
-   ```
-
-   > This pre-commit hook aims to ensure that your commit passes the [continuous integration tests](.github/workflows/ci.yml).
-
-## 7. Author
+## 8. Author
 
 Developed by [Peter Wan](https://github.com/peterdanwan).
 
