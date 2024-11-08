@@ -5,7 +5,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import getTOMLFileValues from '../../file_functions/getTOMLFileValues.js';
 
 const toml = getTOMLFileValues();
-const geminiKey = toml.api_keys.GEMINI_KEY || process.env.GEMINI_KEY;
+const geminiKey = toml?.api_keys?.GEMINI_KEY || process.env.GEMINI_KEY;
 
 // Initialize Google Generative AI client
 const genAI = new GoogleGenerativeAI(geminiKey);

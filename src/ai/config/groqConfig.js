@@ -7,7 +7,7 @@ import getTOMLFileValues from '../../file_functions/getTOMLFileValues.js';
 const toml = getTOMLFileValues();
 
 // Use apiKey provided in file, otherwise fall back to environment variable
-const apiKey = toml.api_keys.GROQ_KEY || process.env.GROQ_KEY;
+const apiKey = toml?.api_keys?.GROQ_KEY || process.env.GROQ_KEY;
 const groq = new Groq({ apiKey });
 
 // Export function to handle Groq-specific prompting

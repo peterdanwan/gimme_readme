@@ -36,13 +36,11 @@ By participating, you are expected to uphold this code. Please report unacceptab
 
 > If you want to ask a question, we assume that you have read the available [Documentation](https://github.com/peterdanwan/gimme_readme) and [Examples](https://github.com/peterdanwan/gimme_readme/blob/main/_examples/README.md).
 
-Before asking a question, please search for existing [Issues](https://github.com/peterdanwan/gimme_readme/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue.
+Before asking a question, please search for existing [Issues](https://github.com/peterdanwan/gimme_readme/issues) that might help you and like the comment of the original issue if you find something that matches your own. In case you have found a new distinct issue, please:
 
-If you still need to ask a question or require clarification, we recommend:
-
-1. Opening an [Issue](https://github.com/peterdanwan/gimme_readme/issues/new).
-2. Providing as much context as you can about what you're running into. (Posting code snippets, screenshots, videos etc. are welcome!).
-3. Providing project and platform versions (nodejs, npm, etc), depending on what seems relevant.
+1. Open an [Issue](https://github.com/peterdanwan/gimme_readme/issues/new).
+2. Provide as much context as you can about what you're running into. (Posting code snippets, screenshots, videos etc. are welcome!).
+3. Provide project and platform versions (nodejs, npm, etc), depending on what seems relevant.
 
 We will then take care of the issue as soon as possible.
 
@@ -162,7 +160,7 @@ We're excited to help you make your first code contribution! Here's a comprehens
 
    > We maintain that it's always a best practice to _never_ work off of your `main` branch, and instead, work on a separate branch. You should do your best to ensure that your `local main` branch, and your `downstream main branch` on GitHub, is in-sync with the [upstream main branch](https://github.com/peterdanwan/gimme_readme).
 
-2. After adding new code or modifying existing code, please try to add a `test` case for these changes (if applicable). Run the following commands to ensure your current changes are: formatted properly, have no code lint (i.e., potential for bugs), and don't break any new or existing test cases:
+2. After adding new code or modifying existing code, please try to add a `test` case for these changes if applicable (read the [Running Tests Manually Section](#running-tests-manually) for more details). Run the following commands to ensure your current changes are: formatted properly, have no code lint (i.e., potential for bugs), and don't break any new or existing test cases:
 
    ```sh
     # To spot any formatting issues and automatically fix them
@@ -195,6 +193,48 @@ We're excited to help you make your first code contribution! Here's a comprehens
    ```
 
    > This pre-commit hook aims to ensure that your commit passes the [continuous integration tests](.github/workflows/ci.yml). If your code fails the `lint` or `test` commands, you'll notice that your commit will not go through. You'll need to address these issues _first_, and then redo your commit.
+
+#### Running Tests Manually
+
+Like many other `JavaScript` projects, `gimme_readme` uses [Jest](https://jestjs.io/) to `test` the current behaviour of our `source code`.
+Please read more about how to use Jest for testing over [here](https://jestjs.io/docs/getting-started).
+
+> NOTE: using `Jest` with `ES6` modules (e.g., using `import` for `ES6` vs. `require` for `CommonJS`) requires using an experimental `Node` feature,
+> which is explained in-depth in this [Stack Overflow Answer](https://stackoverflow.com/questions/35756479/does-jest-support-es6-import-export).
+> This affects our different `test` scripts within [package.json](./package.json) - all of them start with `node --experimental-vm-modules node_modules/jest/bin/jest.js`.
+
+With regards to the `gimme_readme` repository, the code within the `src` folder is _tested by_ the code within the `tests` folder. Often times, when you're trying to add a new test or check if you have broken an _existing_ test, you will want to single out these tests as opposed to running _all_ tests.
+
+Below, are several ways of running the `gimme_readme` tests from the command-line:
+
+```sh
+# Example 1: Run ALL test files
+npm run test
+
+# Example 2: Run test files within a certain folder
+npm run test tests/unit/ai/models/
+
+# Example 3: Run a singular test file
+npm run test tests/unit/ai/models/geminiModels.test.js
+
+# Example 4: Run ALL test files and get a coverage report for all files
+npm run test:coverage
+
+# Example 5: Run test files within a certain folder and get a coverage report for the selected files
+npm run test:coverage tests/unit/ai/models/
+
+# Example 6: Run a singular test file and get a coverage report
+npm run test:coverage tests/unit/file_functions/_gr.test.js
+
+# Example 7: Automatically run ALL test files when the source code changes
+npm run test:watch
+
+# Example 8: Automatically run test files within a certain folder when the relevant source code changes
+npm run test:watch tests/unit/ai/models/
+
+# Example 9: Automatically run a singular
+
+```
 
 #### Visual Studio Code Editor Integration
 
