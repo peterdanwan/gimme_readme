@@ -21,7 +21,7 @@ See our [0.1 Release Demo](https://youtu.be/S6v-u9o_Xx8)!
 
 To get started with `gimme_readme`, follow these steps:
 
-1. Install the latest version of [Node.js](https://nodejs.org/en/download/package-manager) for your operating system.
+1. Install the latest _long term support_ version of [Node.js](https://nodejs.org/en/download/package-manager) for your operating system.
 2. Run the following command to install `gimme_readme` globally:
 
    ```sh

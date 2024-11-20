@@ -20,7 +20,7 @@ gr-ai --help
 ## Show version
 
 ```sh
-gr -v
+gr-ai -v
 ```
 
 ![version](assets/images/version.png)
@@ -30,7 +30,7 @@ gr -v
 ```sh
 # Makes a .gimme_readme_config file if it's not there already
 # Or, helps you find the path to your existing .gimme_readme_config file
-gr -c
+gr-ai -c
 ```
 
 Creates a config file if it doesn't exist already:
