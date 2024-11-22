@@ -1,3 +1,6 @@
+# .github/workflows/cd.yml
+
+# Continuous Integration (CD) Workflow
 name: cd
 on:
   release:
@@ -15,6 +18,8 @@ jobs:
         with:
           node-version: 'lts/*'
           registry-url: 'https://registry.npmjs.org'
+          # Cache npm dependencies so they don't have to be downloaded next time - https://github.com/actions/setup-node#caching-packages-dependencies
+          cache: 'npm'
       - run: npm ci
       - run: npm publish --provenance --access public
         env:

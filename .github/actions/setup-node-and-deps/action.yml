@@ -1,4 +1,4 @@
-# .github/actions/setup-node/action.yml
+# .github/actions/setup-node-and-deps/action.yml
 
 # Ref for composite actions: https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action
 # Ref for reusable workflows: https://docs.github.com/en/actions/sharing-automations/reusing-workflows
