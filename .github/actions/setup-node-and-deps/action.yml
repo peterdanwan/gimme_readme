@@ -1,0 +1,23 @@
+# .github/actions/setup-node/action.yml
+
+# Ref for composite actions: https://docs.github.com/en/actions/sharing-automations/creating-actions/creating-a-composite-action
+# Ref for reusable workflows: https://docs.github.com/en/actions/sharing-automations/reusing-workflows
+# Ref for avoiding duplication: https://docs.github.com/en/actions/sharing-automations/avoiding-duplication
+
+name: 'Setup Node + install & cache npm dependencies'
+runs:
+  using: 'composite'
+  steps:
+    # https://github.com/actions/setup-node
+    - uses: actions/setup-node@v4
+      with:
+        # Use the latest lts version of node
+        node-version: 'lts/*'
+        # Cache npm dependencies so they don't have to be downloaded next time - https://github.com/actions/setup-node#caching-packages-dependencies
+        cache: 'npm'
+    
+    - name: Install dependencies
+      # Use `ci` vs. `install`, see https://docs.npmjs.com/cli/v8/commands/npm-ci
+      run: npm ci
+      # Must specify shell for each step in composite action: https://github.com/orgs/community/discussions/18597
+      shell: bash

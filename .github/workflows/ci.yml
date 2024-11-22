@@ -2,8 +2,6 @@
 
 # Continuous Integration (CI) Workflow
 name: ci
-
-# Run this workflow whenever a push is made to any branch or when there's a pull request
 on:
   pull_request:
     branches:
@@ -11,28 +9,29 @@ on:
   push:
     branches:
       - '*'
-
 jobs:
+  format: 
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment with npm caching
+        uses: ./.github/actions/setup-node
+
+      - name: Run Prettier
+        run: npm run format
+      
   lint:
     name: ESLint
     runs-on: ubuntu-latest
     steps:
-      # https://github.com/actions/checkout
       - name: Check out code
         uses: actions/checkout@v4
 
-      # https://github.com/actions/setup-node
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          # Use the latest lts version of node
-          node-version: 'lts/*'
-          # Cache npm dependencies so they don't have to be downloaded next time - https://github.com/actions/setup-node#caching-packages-dependencies
-          cache: 'npm'
-
-      - name: Install node dependencies
-        # Use `ci` vs. `install`, see https://docs.npmjs.com/cli/v8/commands/npm-ci
-        run: npm ci
+      - name: Setup Node.js environment with npm caching
+        uses: ./.github/actions/setup-node
 
       - name: Run ESLint
         run: npm run lint
@@ -44,11 +43,8 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-          cache: 'npm'
-      - name: Install node dependencies and run tests
-        # Runs `npm ci` and `npm test` in one step. See: https://docs.npmjs.com/cli/v8/commands/npm-install-ci-test
-        run: npm install-ci-test
+      - name: Setup Node.js environment with npm caching
+        uses: ./.github/actions/setup-node
+        
+      - name: Run tests
+        run: npm run test
