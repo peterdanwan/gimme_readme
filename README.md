@@ -86,22 +86,22 @@ gr-ai -v
 To generate a `README.md` file for one or more source files:
 
 ```sh
-gr-ai -f example.js anotherFile.py -o README.md -m gemini-1.5-flash
+gr-ai -f example.js anotherFile.py -o README.md -m gemini-2.0-flash
 ```
 
 ### Generate the number of tokens used during the API call
 
 ```sh
-gr-ai -f example.js anotherFile.py -o README.md -m gemini-1.5-flash -tkn
+gr-ai -f example.js anotherFile.py -o README.md -m gemini-2.0-flash -tkn
 gr-ai -f example.js anotherFile.py -o README.md -m llama3-8b-8192 --token
 ```
 
 ## 4. Supported Models by Providers
 
-| Provider | Models           |
-| -------- | ---------------- |
-| `gemini` | gemini-1.5-flash |
-| `groq`   | llama3-8b-8192   |
+| Provider | Models                             |
+| -------- | ---------------------------------- |
+| `gemini` | gemini-2.0-flash, gemini-1.5-flash |
+| `groq`   | llama3-8b-8192                     |
 
 ## 5. Contributing
 

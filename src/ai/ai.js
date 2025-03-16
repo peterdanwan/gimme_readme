@@ -16,7 +16,7 @@ import chalk from 'chalk';
 export default async function promptAI(prompt, model, temperature, outputFile, needToken) {
   if (model === null) {
     // Set the model to whatever is configured in their .env (default to gemini) and if that isn't set, set it to 'gemini'
-    model = 'gemini-1.5-flash';
+    model = 'gemini-2.0-flash';
   }
 
   if (typeof temperature === 'string') {
