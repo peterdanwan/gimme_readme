@@ -44,7 +44,7 @@ Locates the config file if it does exist:
 ## Explain a file, output the result to a specific file, and set the temperature for the model
 
 ```sh
-gr-ai -m gemini-1.5-flash -f tests/unit/_gr.test.js -o explanation.md -t 0.1
+gr-ai -m gemini-2.0-flash -f tests/unit/_gr.test.js -o explanation.md -t 0.1
 ```
 
 ![explain-file](assets/images/explain-file.png)
